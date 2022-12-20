@@ -1,36 +1,103 @@
 ---
-title: "Quarto Presentations"
-subtitle: "Create beautiful interactive slide decks with Reveal.js"
+title: "Mixture-of-Experts Models for Claim Frequency and Severity"
+author:
+    - name: "Ian Weng (Sophia) Chan"
+      affiliation: "PhD Candidate, University of Toronto"
 format:
   revealjs: 
+    theme: white
     slide-number: true
-    size: 16:9
+    margin: 0.1
+    center: false
+    fig-cap-location: "bottom"
+    fig-align: "center"
     chalkboard: 
       buttons: false
     preview-links: auto
     # logo: images/quarto.png
-    # css: styles.css
-    # footer: <https://quarto.org>
+    css: styles.css
+    footer: "CAS RPM, Mar 15 2023, San Diego CA"
 # resources:
 #   - demo.pdf
 ---
 
-## Hello, There
 
-This presentation will show you examples of what you can do with Quarto and [Reveal.js](https://revealjs.com), including:
+## Overview
 
--   Presenting code and LaTeX equations
--   Including computations in slide output
--   Image, video, and iframe backgrounds
--   Fancy transitions and animations
--   Printing to PDF
+::: incremental
+- We propose a flexible Mixture-of-Experts framework for modeling claim frequency and severity, and for many other applications
 
-...and much more
+- We showcase a few case studies to demonstrate the theoretical flexibility and wide applicability of the framework
+
+- Our model has been implemented in Julia and R as open-source packages, readily available for a variety of applications
+
+- Joint work by the [actuarial research group](https://actsci.utstat.utoronto.ca/) at the University of Toronto: Tsz Chai (Samson) Fung, Spark Tseung, Prof. Andrei Badescu, and Prof. X. Sheldon Lin
+:::
 
 ---
 
-## Test Slide
+## Actuaries: GLM is great!
 
-This is another test slide.
+::: {.columns}
+::: {.column width="60%"}
+::: incremental
+- GLM is simple yet powerful.
 
-Test to change the slides.
+- GLM is easy to implement.
+
+- GLM is interpretable and accessible.
+
+- **However, GLM can fail miserably in insurance applications, because real data do not satisfy GLM assumptions.**
+:::
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="35%"}
+![](plots/glm-book.jpg){width=400 fig-align="left"}
+:::
+
+:::
+
+---
+
+## GLM fails when...
+
+
+::: nonincremental
+- Claim frequency distribution is heavy-tailed.
+
+- There is an excess probability of zero claims.
+::: 
+
+. . .
+
+Example: Australian auto insurance data (*ausprivauto040*) in CASDatasets
+
+![](plots/AUS-hist-log-frequency-ex-MoE.png){width=500 fig-align="center"}
+
+---
+
+## GLM fails when...
+
+::: nonincremental
+- Claim severity distribution is multimodal and/or heavy-tailed.
+
+- Observations are censored and/or truncated.
+
+:::
+
+. . .
+
+::: {.columns}
+::: {.column width="40%"}
+Example: French auto insurance data (*freMTPLsev*) in CASDatasets
+:::
+
+::: {.column width="60%"}
+![](plots/FRA-hist-log-claim.png){width=450 fig-align="center"}
+:::
+:::
+
+---
