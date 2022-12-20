@@ -27,7 +27,7 @@ format:
 ## Overview
 
 ::: incremental
-- We propose a flexible Mixture-of-Experts framework for modeling claim frequency and severity, and for many other applications
+- We propose a flexible Mixture-of-Experts (MoE) framework for modeling claim frequency and severity, and for many other applications
 
 - We showcase a few case studies to demonstrate the theoretical flexibility and wide applicability of the framework
 
@@ -66,7 +66,6 @@ format:
 
 ## GLM fails when...
 
-
 ::: nonincremental
 - Claim frequency distribution is heavy-tailed.
 
@@ -88,7 +87,6 @@ analyzed in [@badescu2021actuaryarticle].
 - Claim severity distribution is multimodal and/or heavy-tailed.
 
 - Observations are censored and/or truncated.
-
 :::
 
 . . .
@@ -101,6 +99,82 @@ analyzed in [@tseung2021lrmoe].
 
 ::: {.column width="60%"}
 ![](plots/FRA-hist-log-claim.png){width=450 fig-align="center"}
+:::
+:::
+
+---
+
+## Insurance data are heterogeneous.
+
+::: nonincremental
+- Policyholders' risk profiles are different, even within the same portfolio.
+- One way to capture such heterogeneity is to use a **mixture** model.
+:::
+
+. . .
+
+Example: Modelling claim frequency with a 3-component Poisson mixture.
+
+![](plots/model-structure-no-regression.png){width=800 fig-align="center"}
+
+---
+
+## Covariates are important.
+
+::: nonincremental
+- Policyholders' information, or covariates, are predictive of their risk profile.
+- We may use **regression** to classify policyholders into different risk groups, and model each group separately.
+:::
+
+. . .
+
+Example: A Poisson mixture model combined with logistic regression.
+
+![](plots/model-structure.png){width=800 fig-align="center"}
+
+---
+
+## MoE = Regression + Mixture
+
+This is an example of our proposed Mixture-of-Experts (MoE) framework.
+
+::: incremental
+- We first classify policyholders into different latent risk groups with a multiple logistic regression.
+- Within each risk group, we model the response (frequency or severity) with an appropriate distribution (or expert).
+:::
+
+![](plots/model-structure.png){width=800 fig-align="center"}
+
+---
+
+## MoE: Flexibile and Powerful
+
+::: nonincremental
+- The MoE framework is extremely flexible and powerful (more details later).
+- For example, it offers a much better fit to data compared with GLM.
+:::
+
+. . .
+
+Example: Australian auto insurance data (*ausprivauto040*) in *CASDatasets* [@dutang2020package],
+analyzed in [@badescu2021actuaryarticle].
+
+![](plots/AUS-hist-log-frequency.png){width=500 fig-align="center"}
+
+---
+
+## MoE: Flexibile and Powerful
+
+Example: French auto insurance data (*freMTPLsev*) in *CASDatasets* [@dutang2020package],
+analyzed in [@tseung2021lrmoe].
+
+::: {.columns}
+::: {.column width="50%"}
+![](plots/FRA-hist-vs-fitted.png){width=450 fig-align="center"}
+:::
+
+::: {.column width="50%"}
+![](plots/FRA-qq-fitted.png){width=450 fig-align="center"}
 :::
 :::
 
