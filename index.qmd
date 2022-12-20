@@ -3,6 +3,7 @@ title: "Mixture-of-Experts Models for Claim Frequency and Severity"
 author:
     - name: "Ian Weng (Sophia) Chan"
       affiliation: "PhD Candidate, University of Toronto"
+bibliography: references.bib
 format:
   revealjs: 
     theme: white
@@ -73,7 +74,7 @@ format:
 
 . . .
 
-Example: Australian auto insurance data (*ausprivauto040*) in CASDatasets
+Example: Australian auto insurance data (*ausprivauto040*) in *CASDatasets* [@dutang2020package]
 
 ![](plots/AUS-hist-log-frequency-ex-MoE.png){width=500 fig-align="center"}
 
@@ -92,7 +93,7 @@ Example: Australian auto insurance data (*ausprivauto040*) in CASDatasets
 
 ::: {.columns}
 ::: {.column width="40%"}
-Example: French auto insurance data (*freMTPLsev*) in CASDatasets
+Example: French auto insurance data (*freMTPLsev*) in *CASDatasets* [@dutang2020package]
 :::
 
 ::: {.column width="60%"}
@@ -101,3 +102,8 @@ Example: French auto insurance data (*freMTPLsev*) in CASDatasets
 :::
 
 ---
+
+### References
+
+::: {#refs}
+:::
