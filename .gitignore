@@ -1,5 +1,6 @@
-
+.DS_Store
 /.quarto/
 /index_files/
 *.html
+*.pptx
 /_freeze/
