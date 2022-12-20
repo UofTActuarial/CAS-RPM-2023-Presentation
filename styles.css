@@ -1,0 +1,38 @@
+.border {
+  border: 1px solid #dee2e6;
+}
+
+.border-thick {
+  border-width: 3px;
+}
+
+.reveal {
+  font-size: 32px;
+}
+
+.reveal h1 {
+  font-size: 80px;
+}
+
+.reveal h2 {
+  font-size: 64px;
+}
+
+/* .reveal.slide .slides > section, .reveal.slide .slides > section > section {
+  min-height: 100% !important;
+  display: flex !important;∂
+  flex-direction: column !important;
+  justify-content: center !important;
+  position: relative !important;
+  top: 0 !important;
+  align-items: center !important;
+}
+section > h1, section > h2 {
+  position: relative !important;
+  top: 0 !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  left: 0 !important;
+  right: 0 !important;
+  text-align: center !important;
+} */
