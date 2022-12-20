@@ -74,7 +74,8 @@ format:
 
 . . .
 
-Example: Australian auto insurance data (*ausprivauto040*) in *CASDatasets* [@dutang2020package]
+Example: Australian auto insurance data (*ausprivauto040*) in *CASDatasets* [@dutang2020package],
+analyzed in [@badescu2021actuaryarticle].
 
 ![](plots/AUS-hist-log-frequency-ex-MoE.png){width=500 fig-align="center"}
 
@@ -93,7 +94,8 @@ Example: Australian auto insurance data (*ausprivauto040*) in *CASDatasets* [@du
 
 ::: {.columns}
 ::: {.column width="40%"}
-Example: French auto insurance data (*freMTPLsev*) in *CASDatasets* [@dutang2020package]
+Example: French auto insurance data (*freMTPLsev*) in *CASDatasets* [@dutang2020package],
+analyzed in [@tseung2021lrmoe].
 :::
 
 ::: {.column width="60%"}
