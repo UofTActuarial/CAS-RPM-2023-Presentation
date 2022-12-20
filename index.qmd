@@ -8,6 +8,9 @@ bibliography: references.bib
 format:
   revealjs: 
     theme: white
+    toc: true
+    toc-depth: 1
+    slide-level: 2
     slide-number: true
     margin: 0.1
     center: false
@@ -23,7 +26,6 @@ format:
 #   - demo.pdf
 ---
 
-
 ## Overview
 
 ::: incremental
@@ -36,7 +38,7 @@ format:
 - Joint work by the [actuarial research group](https://actsci.utstat.utoronto.ca/) at the University of Toronto: Tsz Chai (Samson) Fung, Spark Tseung, Prof. Andrei Badescu, and Prof. X. Sheldon Lin
 :::
 
----
+# Motivating Examples
 
 ## Actuaries: GLM is great!
 
@@ -178,9 +180,12 @@ analyzed in [@tseung2021lrmoe].
 :::
 :::
 
----
+# A Crash Course on MoE
 
-### References
+
+# Appendix
+
+## References
 
 ::: {#refs}
 :::
