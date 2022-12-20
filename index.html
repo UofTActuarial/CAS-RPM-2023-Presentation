@@ -347,6 +347,7 @@
 
 <section id="title-slide" class="quarto-title-block center">
   <h1 class="title">Mixture-of-Experts Models for Claim Frequency and Severity</h1>
+  <p class="subtitle">CAS RPM, Mar 15 2023, San Diego CA</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -364,7 +365,7 @@ Ian Weng (Sophia) Chan
 <h2>Overview</h2>
 <div>
 <ul>
-<li class="fragment"><p>We propose a flexible Mixture-of-Experts framework for modeling claim frequency and severity, and for many other applications</p></li>
+<li class="fragment"><p>We propose a flexible Mixture-of-Experts (MoE) framework for modeling claim frequency and severity, and for many other applications</p></li>
 <li class="fragment"><p>We showcase a few case studies to demonstrate the theoretical flexibility and wide applicability of the framework</p></li>
 <li class="fragment"><p>Our model has been implemented in Julia and R as open-source packages, readily available for a variety of applications</p></li>
 <li class="fragment"><p>Joint work by the <a href="https://actsci.utstat.utoronto.ca/">actuarial research group</a> at the University of Toronto: Tsz Chai (Samson) Fung, Spark Tseung, Prof.&nbsp;Andrei Badescu, and Prof.&nbsp;X. Sheldon Lin</p></li>
@@ -433,6 +434,87 @@ Ian Weng (Sophia) Chan
 </div>
 </div>
 </section>
+<section id="insurance-data-are-heterogeneous." class="slide level2">
+<h2>Insurance data are heterogeneous.</h2>
+<div>
+<ul>
+<li>Policyholders’ risk profiles are different, even within the same portfolio.</li>
+<li>One way to capture such heterogeneity is to use a <strong>mixture</strong> model.</li>
+</ul>
+</div>
+<div class="fragment">
+<p>Example: Modelling claim frequency with a 3-component Poisson mixture.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="plots/model-structure-no-regression.png" width="800"></p>
+</figure>
+</div>
+</div>
+</section>
+<section id="covariates-are-important." class="slide level2">
+<h2>Covariates are important.</h2>
+<div>
+<ul>
+<li>Policyholders’ information, or covariates, are predictive of their risk profile.</li>
+<li>We may use <strong>regression</strong> to classify policyholders into different risk groups, and model each group separately.</li>
+</ul>
+</div>
+<div class="fragment">
+<p>Example: A Poisson mixture model combined with logistic regression.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="plots/model-structure.png" width="800"></p>
+</figure>
+</div>
+</div>
+</section>
+<section id="moe-regression-mixture" class="slide level2">
+<h2>MoE = Regression + Mixture</h2>
+<p>This is an example of our proposed Mixture-of-Experts (MoE) framework.</p>
+<div>
+<ul>
+<li class="fragment">We first classify policyholders into different latent risk groups with a multiple logistic regression.</li>
+<li class="fragment">Within each risk group, we model the response (frequency or severity) with an appropriate distribution (or expert).</li>
+</ul>
+</div>
+
+<img data-src="plots/model-structure.png" width="800" class="r-stretch quarto-figure-center"></section>
+<section id="moe-flexibile-and-powerful" class="slide level2">
+<h2>MoE: Flexibile and Powerful</h2>
+<div>
+<ul>
+<li>The MoE framework is extremely flexible and powerful (more details later).</li>
+<li>For example, it offers a much better fit to data compared with GLM.</li>
+</ul>
+</div>
+<div class="fragment">
+<p>Example: Australian auto insurance data (<em>ausprivauto040</em>) in <em>CASDatasets</em> <span class="citation" data-cites="dutang2020package">(<a href="#/references" role="doc-biblioref" onclick="">Dutang and Charpentier 2020</a>)</span>, analyzed in <span class="citation" data-cites="badescu2021actuaryarticle">(<a href="#/references" role="doc-biblioref" onclick="">Badescu et al. 2021</a>)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="plots/AUS-hist-log-frequency.png" width="500"></p>
+</figure>
+</div>
+</div>
+</section>
+<section id="moe-flexibile-and-powerful-1" class="slide level2">
+<h2>MoE: Flexibile and Powerful</h2>
+<p>Example: French auto insurance data (<em>freMTPLsev</em>) in <em>CASDatasets</em> <span class="citation" data-cites="dutang2020package">(<a href="#/references" role="doc-biblioref" onclick="">Dutang and Charpentier 2020</a>)</span>, analyzed in <span class="citation" data-cites="tseung2021lrmoe">(<a href="#/references" role="doc-biblioref" onclick="">Tseung et al. 2021</a>)</span>.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="plots/FRA-hist-vs-fitted.png" width="450"></p>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="plots/FRA-qq-fitted.png" width="450"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
 <section class="slide level2 smaller scrollable" id="references">
 
 <h3 id="references">References</h3>
@@ -448,7 +530,7 @@ Tseung, Spark C, Andrei L Badescu, Tsz Chai Fung, and X Sheldon Lin. 2021. <span
 </div>
 </div>
 <div class="footer footer-default">
-<p>CAS RPM, Mar 15 2023, San Diego CA</p>
+
 </div>
 </section>
     </div>
