@@ -1,5 +1,6 @@
 ---
 title: "Mixture-of-Experts Models for Claim Frequency and Severity"
+subtitle: "CAS RPM, Mar 15 2023, San Diego CA"
 author:
     - name: "Ian Weng (Sophia) Chan"
       affiliation: "PhD Candidate, University of Toronto"
@@ -17,7 +18,7 @@ format:
     preview-links: auto
     # logo: images/quarto.png
     css: styles.css
-    footer: "CAS RPM, Mar 15 2023, San Diego CA"
+    # footer: "CAS RPM, Mar 15 2023, San Diego CA"
 # resources:
 #   - demo.pdf
 ---
