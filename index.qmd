@@ -202,6 +202,62 @@ where $\mathbf{\alpha}_{j} = (\alpha_{j0}, \alpha_{j1}, \dots, \alpha_{jP})^{T}$
 
 ![](plots/moe-model-setup.png){width=450 fig-align="center"}
 
+## More Details
+### Miltiple Logit for Classification
+
+::: incremental
+- We have assumed a multiple logistic gating function for classification into latent risk classes.
+$$
+    \pi_{j}(\mathbf{x}_{i}; \mathbf{\alpha}_{j}) = \frac{\exp(\mathbf{\alpha}^{T}_{j}\mathbf{x}_{i})}{\sum_{j^{\prime}=1}^{g} \exp(\mathbf{\alpha}^{T}_{j^{\prime}}\mathbf{x}_{i}) }, \quad j = 1, 2, \dots, g,
+$$
+
+- It is possible to pose other functions for this classification stage, e.g. a probit regression.
+
+- The multiple logistic regression is a good choice for its interpretability and ease of computational implementation.
+:::
+
+## More Details
+### Expert Functions for the Response
+
+::: incremental
+- In the expert functions $f_j(\mathbf{y}_{i}; \mathbf{\phi}_j)$, we have assumed some **fixed** parameters
+$\mathbf{\phi}_j$ which are **independent** of the covariates $\mathbf{x}_{i}$.
+
+- It is possible to also incorporate the covariates $\mathbf{x}_{i}$ in the parameters of the expert functions such that
+$$
+    f_j(\mathbf{y}_{i}; \mathbf{\phi}_j(\mathbf{x}_{i})) = f_j(\mathbf{y}_{i}; \mathbf{\phi}_j(\mathbf{x}_{i}, \mathbf{\beta}_j))
+$$
+where $\mathbf{\beta}_j$ is a vector of regression coefficients for $j$-th expert function.
+
+- The interpretation of our framework: the risk profiles of policyholders within the same latent group
+are homogeneous and independent of their covariates.
+:::
+
+## LRMoE
+
+::: incremental
+- Our modelling framework is called the **Logit-weighted Reduced** Mixture-of-Experts (LRMoE) due to
+the simplifying assumptions on the expert functions.
+
+- It is a special case of the more general class of mixture-of-experts (MoE) models, see e.g. [@jordan1994hierarchical]
+(figure extracted from the paper).
+
+  ![](plots/jordan-general-moe-setup.png){width=500 fig-align="center"}
+:::
+
+
+## More Details
+
+### Dependence of Response Variables
+
+::: incremental
+- The response variables $\mathbf{y}_{i}$ may be multi-dimensional, e.g., $\mathbf{y}_{i} = (y_{i1}, y_{i2})$ 
+for two auto insurance coverages purchased by the same policyholder.
+- In this case, we assume **conditional independence** between the two dimensions of $\mathbf{y}_{i}$,
+assignment of latent class $j$.
+- However, they are in fact **dependent** due to the mixture structure, which is essential for capturing
+the **correlation** between the two coverages observed in real data.
+:::
 
 # Appendix
 
