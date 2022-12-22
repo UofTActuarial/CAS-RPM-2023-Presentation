@@ -182,6 +182,26 @@ analyzed in [@tseung2021lrmoe].
 
 # A Crash Course on MoE
 
+## Model Setup
+
+::: incremental
+- Let $\mathbf{x}_{i} = (x_{i0}, x_{i1}, \dots, x_{iP})^{T}$ denote the $(P+1)$-dimensional covariate vector 
+for policyholder $i$ for $i=1, 2, \dots, n$.
+
+- Based on the covariates, policyholder $i$ is classified into one of $g$ latent risk classes by a logit **gating function**
+$$
+    \pi_{j}(\mathbf{x}_{i}; \mathbf{\alpha}_{j}) = \frac{\exp(\mathbf{\alpha}^{T}_{j}\mathbf{x}_{i})}{\sum_{j^{\prime}=1}^{g} \exp(\mathbf{\alpha}^{T}_{j^{\prime}}\mathbf{x}_{i}) }, \quad j = 1, 2, \dots, g,
+$$
+where $\mathbf{\alpha}_{j} = (\alpha_{j0}, \alpha_{j1}, \dots, \alpha_{jP})^{T}$ is a vector of regression coefficients for latent class $j$.
+
+- Given the assignment of latent class $j \in \{ 1, 2, \dots, g \}$, the response variables $\mathbf{y}_{i}$ are modelled by an
+**expert function** $f_j(\mathbf{y}_{i}; \mathbf{\phi}_j)$ with parameters $\mathbf{\phi}_j$.
+:::
+
+## Example: 3-Component MoE
+
+![](plots/moe-model-setup.png){width=450 fig-align="center"}
+
 
 # Appendix
 
