@@ -29,7 +29,7 @@ format:
 ## Overview
 
 ::: incremental
-- We propose a flexible Mixture-of-Experts (MoE) framework for modeling claim frequency and severity, and for many other applications
+- We propose a flexible Mixture-of-Experts (MoE) framework for modelling claim frequency and severity, and for many other applications
 
 - We showcase a few case studies to demonstrate the theoretical flexibility and wide applicability of the framework
 
@@ -195,7 +195,7 @@ $$
 where $\mathbf{\alpha}_{j} = (\alpha_{j0}, \alpha_{j1}, \dots, \alpha_{jP})^{T}$ is a vector of regression coefficients for latent class $j$.
 
 - Given the assignment of latent class $j \in \{ 1, 2, \dots, g \}$, the response variables $\mathbf{y}_{i}$ are modelled by an
-**expert function** $f_j(\mathbf{y}_{i}; \mathbf{\phi}_j)$ with parameters $\mathbf{\phi}_j$.
+**expert function** $f_j(\mathbf{y}_{i}; \mathbf{\varphi}_j)$ with parameters $\mathbf{\varphi}_j$.
 :::
 
 ## Example: 3-Component MoE
@@ -220,12 +220,12 @@ $$
 ### Expert Functions for the Response
 
 ::: incremental
-- In the expert functions $f_j(\mathbf{y}_{i}; \mathbf{\phi}_j)$, we have assumed some **fixed** parameters
-$\mathbf{\phi}_j$ which are **independent** of the covariates $\mathbf{x}_{i}$.
+- In the expert functions $f_j(\mathbf{y}_{i}; \mathbf{\varphi}_j)$, we have assumed some **fixed** parameters
+$\mathbf{\varphi}_j$ which are **independent** of the covariates $\mathbf{x}_{i}$.
 
 - It is possible to also incorporate the covariates $\mathbf{x}_{i}$ in the parameters of the expert functions such that
 $$
-    f_j(\mathbf{y}_{i}; \mathbf{\phi}_j(\mathbf{x}_{i})) = f_j(\mathbf{y}_{i}; \mathbf{\phi}_j(\mathbf{x}_{i}, \mathbf{\beta}_j))
+    f_j(\mathbf{y}_{i}; \mathbf{\varphi}_j(\mathbf{x}_{i})) = f_j(\mathbf{y}_{i}; \mathbf{\varphi}_j(\mathbf{x}_{i}, \mathbf{\beta}_j))
 $$
 where $\mathbf{\beta}_j$ is a vector of regression coefficients for $j$-th expert function.
 
@@ -239,10 +239,23 @@ are homogeneous and independent of their covariates.
 - Our modelling framework is called the **Logit-weighted Reduced** Mixture-of-Experts (LRMoE) due to
 the simplifying assumptions on the expert functions.
 
-- It is a special case of the more general class of mixture-of-experts (MoE) models, see e.g. [@jordan1994hierarchical]
+- It is a special case of the more general class of Mixture-of-Experts (MoE) models, see e.g. [@jordan1994hierarchical]
 (figure extracted from the paper).
 
   ![](plots/jordan-general-moe-setup.png){width=500 fig-align="center"}
+:::
+
+## Simpler is sometimes better
+
+### ... or at least equally good.
+
+::: incremental
+- The general modelling framework of MoE is extremely flexible and powerful.
+
+- However, our LRMoE framework has a much **simpler** structure and 
+it can be **as good as** the general MoE in terms of fitting the data.
+
+- Indeed, actuaries may sometimes prefer models with a simpler structure.
 :::
 
 
