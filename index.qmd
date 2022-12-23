@@ -255,7 +255,13 @@ the simplifying assumptions on the expert functions.
 - However, our LRMoE framework has a much **simpler** structure and 
 it can be **as good as** the general MoE in terms of fitting the data.
 
-- Indeed, actuaries may sometimes prefer models with a simpler structure.
+- Formally speaking, under mild conditions [@fung2019class],
+  - LRMoE is **dense** in the class of MoE models.
+  - LRMoE is **dense** in the class of (univariate and multivariate) frequency and severity distributions.
+
+- In short, LRMoE is theoretically guaranteed to be flexible and powerful.
+
+- Indeed, actuaries may perfer simpler models (like LRMoE) in practice for their interpretability and ease of implementation.
 :::
 
 
