@@ -244,6 +244,7 @@ for two auto insurance coverages purchased by the same policyholder.
 assignment of latent class $j$.
 - However, they are in fact **dependent** due to the mixture structure, which is essential for capturing
 the **correlation** between the two (or multiple) coverages observed in real insurance data.
+- An example on correlated frequency will be given later.
 :::
 
 ## LRMoE
@@ -337,14 +338,49 @@ e.g. suitable choices of expert functions.
   - **Preliminary Analysis**: Let the dataset speak for itself.
   - **Domain Knowledge**: Models more powerful when combined with actuaries' discretion.
   - **Trial and Error**: It never hurts to do some experimentation!
-  - **Computational Efficiency**: Sometimes it may be worthwhile to sacrifice some fitting performance
+  - **Computational Constraints**: Sometimes it may be worthwhile to sacrifice some fitting performance
     for a faster workflow.
 
 :::
 
-## Correlated Claims Frequency
+## Correlated Claims Frequency 
 
-[@fung2019classapplication]
+[@fung2019classapplication] considers fitting LRMoE to the frequency of two correlated claims:
+Third-Party Liability (TPL) and Car Damages (CD).
+
+::: incremental
+- We consider a European major insurer's portfolio with 18K policyholders.
+
+- Empirically, the two coverages are correlated with Kendall's $\tau$ = 0.241, so it may not be
+appropriate to assume independence.
+
+- CD coverage is over-dispersed, and both TPL and CD are right-skewed and heavy-tailed, which
+renders Poisson a poor modelling choice.
+
+- We fit (zero-inflated, ZI-) negative binomial (NB) GLM as benchmark models.
+
+- We use the Erlang-Count (EC) experts for LRMoE, which will make our model theoretically flexible.
+Five components are used based on the Bayesian Information Criterion (BIC).
+:::
+
+
+## Empirical vs Fitted Distributions {.smaller}
+
+LRMoE with EC experts outperforms both NB GLM and ZINB GLM in terms of fitting the chi-squared
+statistic and the log-likelihood.
+
+{{< include tables/EUR-correlated-frequency-fit-table.md >}}
+
+## Correlation and Higher Moments {.smaller}
+
+The LRMoE model produces a fitted Kendall's $\tau$ = 0.240 (vs empirical value 0.241),
+which indicates the dependence is well captured.
+
+Besides, LRMoE also captures the higher-order moments of the two coverages better than
+the benchmark models.
+
+{{< include tables/EUR-correlated-frequency-moments-table.md >}}
+
 
 ## Data Censoring and Truncation
 
