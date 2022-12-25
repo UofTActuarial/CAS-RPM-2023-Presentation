@@ -180,7 +180,7 @@ analyzed in [@tseung2021lrmoe].
 :::
 :::
 
-# A Crash Course on MoE
+# A Crash Course on (LR)MoE
 
 ## Model Setup
 
@@ -233,6 +233,19 @@ where $\mathbf{\beta}_j$ is a vector of regression coefficients for $j$-th exper
 are homogeneous and independent of their covariates.
 :::
 
+## More Details
+
+### Dependence of Response Variables
+
+::: incremental
+- The response variables $\mathbf{y}_{i}$ may be multi-dimensional, e.g., $\mathbf{y}_{i} = (y_{i1}, y_{i2})$ 
+for two auto insurance coverages purchased by the same policyholder.
+- In this case, we assume **conditional independence** between the two dimensions of $\mathbf{y}_{i}$,
+assignment of latent class $j$.
+- However, they are in fact **dependent** due to the mixture structure, which is essential for capturing
+the **correlation** between the two (or multiple) coverages observed in real insurance data.
+:::
+
 ## LRMoE
 
 ::: incremental
@@ -255,7 +268,7 @@ the simplifying assumptions on the expert functions.
 - However, our LRMoE framework has a much **simpler** structure and 
 it can be **as good as** the general MoE in terms of fitting the data.
 
-- Formally speaking, under mild conditions [@fung2019class],
+- Formally speaking, under mild conditions [@fung2019classtheory],
   - LRMoE is **dense** in the class of MoE models.
   - LRMoE is **dense** in the class of (univariate and multivariate) frequency and severity distributions.
 
@@ -265,17 +278,101 @@ it can be **as good as** the general MoE in terms of fitting the data.
 :::
 
 
-## More Details
+# Applications in Actuarial Modelling
 
-### Dependence of Response Variables
+## Overview
+
+We will consider several applications of LRMoE on real insurance data.
+
+We aim to demonstrate the following **desirable features** and **potential use cases** of our framework for actuarial modelling.
 
 ::: incremental
-- The response variables $\mathbf{y}_{i}$ may be multi-dimensional, e.g., $\mathbf{y}_{i} = (y_{i1}, y_{i2})$ 
-for two auto insurance coverages purchased by the same policyholder.
-- In this case, we assume **conditional independence** between the two dimensions of $\mathbf{y}_{i}$,
-assignment of latent class $j$.
-- However, they are in fact **dependent** due to the mixture structure, which is essential for capturing
-the **correlation** between the two coverages observed in real data.
+- Fitting both frequency and severity data with much better results
+
+- Modelling correlated claims frequency in a single framework
+
+- Dealing with censored/truncated data due to policy limits/deductibles
+
+- Extending to other problems such as claims reserving, IBNR prediction, and insurance risk selection
+:::
+
+## Univariate Frequency and Severity
+
+Our introductory examples on the Australian (*ausprivauto040*) and French (*freMTPLsev*)
+auto insurance datasets have already demonstrated the superior fitting performance of LRMoE 
+compared to GLM.
+
+::: nonincremental
+- Australian: 3 components of Poisson
+- French: 6 components of zero-inflated Lognormal
+:::
+
+**What expert functions (distributions) should one use?**
+
+::: {.columns}
+::: {.column width="40%"}
+![](plots/AUS-hist-log-frequency.png){width=450 fig-align="center"}
+:::
+
+::: {.column width="30%"}
+![](plots/FRA-hist-vs-fitted.png){width=450 fig-align="center"}
+:::
+
+::: {.column width="30%"}
+![](plots/FRA-qq-fitted.png){width=450 fig-align="center"}
+:::
+:::
+
+
+## Theory vs Practice
+
+::: incremental
+
+- [@fung2019classtheory] state that, in theory, LRMoE is flexible under *mild conditions*,
+e.g. suitable choices of expert functions.
+  - Frequency: Negative Binomial, Renewal Count, etc.
+  - Severity: Lognormal, Gamma, Inverse Gaussian, etc.
+
+- In practice, the choice of expert functions rely on the following considerations:
+  - **Preliminary Analysis**: Let the dataset speak for itself.
+  - **Domain Knowledge**: Models more powerful when combined with actuaries' discretion.
+  - **Trial and Error**: It never hurts to do some experimentation!
+  - **Computational Efficiency**: Sometimes it may be worthwhile to sacrifice some fitting performance
+    for a faster workflow.
+
+:::
+
+## Correlated Claims Frequency
+
+[@fung2019classapplication]
+
+## Data Censoring and Truncation
+
+
+## Claims Reserving / IBNR
+
+[@fung2021new]
+
+
+## Operational Risk Modelling
+
+
+## Insurance Risk Selection
+
+
+# Software Implementations
+
+## Fitting LRMoE to Real Data
+
+aaa
+
+## We have already built the wheels!
+
+Our research group has developed two software packages for LRMoE, which are readily available
+for installation and use on real datasets.
+
+::: nonincremental
+
 :::
 
 # Appendix
