@@ -333,7 +333,7 @@ e.g. suitable choices of expert functions.
   - Frequency: Negative Binomial, Renewal Count, etc.
   - Severity: Lognormal, Gamma, Inverse Gaussian, etc.
 
-- In practice, the choice of expert functions rely on the following considerations:
+- In practice, the choice of expert functions depends on the following considerations:
   - **Preliminary Analysis**: Let the dataset speak for itself.
   - **Domain Knowledge**: Models more powerful when combined with actuaries' discretion.
   - **Trial and Error**: It never hurts to do some experimentation!
