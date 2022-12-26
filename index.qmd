@@ -509,16 +509,68 @@ TODO: add illustrative figures
 
 ## Fitting LRMoE to Real Data
 
-aaa
+As a mixture-based model, parameter estimation for LRMoE can be done by the 
+Expectation-(Conditional-)Maximization, or E(C)M, algorithm.
+
+::: incremental
+- [@fung2019classapplication] contains an illustration of fitting LRMoE to frequency data.
+
+- [@fung2021fitting] focuses on estimation from censored and/or truncated data.
+
+- A general introduction to the E(C)M algorithm can be found in [@mclachlan2007algorithm].
+A general introduction to finite mixture models can be found in [@mclachlan2019mixture].
+:::
+
+. . .
+
+Implementing the estimation involves some customization based on the selection of 
+experts functions, as well as modifications based on the presence of censored and/or truncated data.
 
 ## We have already built the wheels!
 
-Our research group has developed two software packages for LRMoE, which are readily available
-for installation and use on real datasets.
+Our research group has developed two software packages for LRMoE, which are **open-source** and
+**readily available** for use on real datasets [@tseung2020lrmoe] and [@tseung2021lrmoe].
 
-::: nonincremental
+. . .
 
+::: {.columns}
+
+::: {.column width="50%"}
+![](plots/Julia-logo.png){width=120 fig-align="center"}
+
+For working with large real datasets.
+
+```julia
+# Installation
+using Pkg
+Pkg.add("LRMoE")
+
+# Using the package
+using LRMoE
+```
 :::
+
+::: {.column width="50%"}
+![](plots/R-logo.png){width=100 fig-align="center"}
+
+For the research community.
+
+```r
+# Installation
+library(devtools)
+install_github("UofTActuarial/LRMoE")
+
+# Using the package
+library(LRMoE)
+```
+:::
+:::
+
+. . .
+
+It is not difficult to interface with Python via packages like `PyJulia` [@takafumi_arakaki_2022_7340220] and
+`rpy2` ([github](https://github.com/rpy2/rpy2)).
+
 
 # Appendix
 
