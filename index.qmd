@@ -572,6 +572,24 @@ It is not difficult to interface with Python via packages like `PyJulia` [@takaf
 `rpy2` ([github](https://github.com/rpy2/rpy2)).
 
 
+## Package Highlights
+
+Our software packages offer several new distinctive features which are motivated by 
+various actuarial applications and mostly cannot be achieved using existing packages for mixture models.
+
+::: incremental
+- A wider coverage on frequency and severity distributions and their zero-inflated variants;
+- The flexibility to vary classes of distributions across components;
+- Parameter estimation under data censoring and truncation;
+- A collection of insurance rate making and reserving functions; and
+- Model selection and visualization tools.
+:::
+
+. . .
+
+While LRMoE(.jl) was initially developed for actuarial application, our packages also allow for 
+**customized expert functions** for various modelling problems in and out of the insurance context. 
+
 # Appendix
 
 ## References
