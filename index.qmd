@@ -618,6 +618,37 @@ various actuarial applications and mostly cannot be achieved using existing pack
 While LRMoE(.jl) was initially developed for actuarial application, our packages also allow for 
 **customized expert functions** for various modelling problems in and out of the insurance context. 
 
+## Live Demo!
+
+We will see `LRMoE.jl` in action, including data simulation and model fitting to similated and 
+real datasets.
+
+- Reproducible code available on [github](https://github.com/UofTActuarial/Demo-LRMoE-jl)
+- Check out the complete documentation: [Julia](https://actsci.utstat.utoronto.ca/LRMoE.jl/stable/) / [R](https://actsci.utstat.utoronto.ca/LRMoE/)
+
+
+# Summary
+
+## Summary
+
+::: incremental
+
+- GLM is popular with actuaries, but it may fail on complex insurance datasets.
+
+- We introduced the **LRMoE** framework for insurance frequency and severity data, as well as many other applications.
+
+- Our proposed model is shown to provide **superior performance** on various datasets and modelling problems.
+
+- We have developed two software packages for LRMoE, which are **open-source** and **readily available** for use on real applications.
+
+- Many potential extensions and applications for LRMoE are still ongoing... Keep an eye on our latest [publications
+  and presentations](https://actsci.utstat.utoronto.ca/publication/)!
+
+- Our research group is always looking for collaborations. Please [reach out to us](https://actsci.utstat.utoronto.ca/) if you have
+  interesting and challenging problems to solve!
+
+:::
+
 # Appendix
 
 ## References
