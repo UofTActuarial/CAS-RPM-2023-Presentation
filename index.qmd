@@ -1,6 +1,6 @@
 ---
 title: "Mixture-of-Experts Models for Claim Frequency and Severity"
-subtitle: "CAS RPM, Mar 15 2023, San Diego CA"
+subtitle: "CAS RPM, March 15, 2023, San Diego CA"
 author:
     - name: "Ian Weng (Sophia) Chan"
       affiliation: "PhD Candidate, University of Toronto"
@@ -35,7 +35,7 @@ format:
 
 - Our model has been implemented in Julia and R as open-source packages, readily available for a variety of applications
 
-- Joint work by the [actuarial research group](https://actsci.utstat.utoronto.ca/) at the University of Toronto: Tsz Chai (Samson) Fung, Spark Tseung, Prof. Andrei Badescu, and Prof. X. Sheldon Lin
+- Joint work by the [actuarial research group](https://actsci.utstat.utoronto.ca/) at the University of Toronto: \ \ \ \  Tsz Chai (Samson) Fung, Spark Tseung, Prof. Andrei Badescu, and Prof. X. Sheldon Lin
 :::
 
 # Motivating Examples
@@ -124,7 +124,7 @@ Example: Modelling claim frequency with a 3-component Poisson mixture.
 ## Covariates are important.
 
 ::: nonincremental
-- Policyholders' information, or covariates, are predictive of their risk profile.
+- Policyholders' information, or covariates, are predictive of their risk profiles.
 - We may use **regression** to classify policyholders into different risk groups, and model each group separately.
 :::
 
@@ -141,7 +141,7 @@ Example: A Poisson mixture model combined with logistic regression.
 This is an example of our proposed Mixture-of-Experts (MoE) framework.
 
 ::: incremental
-- We first classify policyholders into different latent risk groups with a multiple logistic regression.
+- We first classify policyholders into different latent risk groups with a multinomial logistic regression.
 - Within each risk group, we model the response (frequency or severity) with an appropriate distribution (or expert).
 :::
 
@@ -149,7 +149,7 @@ This is an example of our proposed Mixture-of-Experts (MoE) framework.
 
 ---
 
-## MoE: Flexibile and Powerful
+## MoE: Flexible and Powerful
 
 ::: nonincremental
 - The MoE framework is extremely flexible and powerful (more details later).
@@ -165,7 +165,7 @@ analyzed in [@badescu2021actuaryarticle].
 
 ---
 
-## MoE: Flexibile and Powerful
+## MoE: Flexible and Powerful
 
 Example: French auto insurance data (*freMTPLsev*) in *CASDatasets* [@dutang2020package],
 analyzed in [@tseung2021lrmoe].
@@ -186,16 +186,16 @@ analyzed in [@tseung2021lrmoe].
 
 ::: incremental
 - Let $\mathbf{x}_{i} = (x_{i0}, x_{i1}, \dots, x_{iP})^{T}$ denote the $(P+1)$-dimensional covariate vector 
-for policyholder $i$ for $i=1, 2, \dots, n$.
+for policyholder $i$ \ for \ $i=1, 2, \dots, n$.
 
-- Based on the covariates, policyholder $i$ is classified into one of $g$ latent risk classes by a logit **gating function**
+- Based on the covariates, policyholder $i$ \ is classified into one of \ $g$ \ latent risk classes by a logit **gating function**
 $$
     \pi_{j}(\mathbf{x}_{i}; \mathbf{\alpha}_{j}) = \frac{\exp(\mathbf{\alpha}^{T}_{j}\mathbf{x}_{i})}{\sum_{j^{\prime}=1}^{g} \exp(\mathbf{\alpha}^{T}_{j^{\prime}}\mathbf{x}_{i}) }, \quad j = 1, 2, \dots, g,
 $$
 where $\mathbf{\alpha}_{j} = (\alpha_{j0}, \alpha_{j1}, \dots, \alpha_{jP})^{T}$ is a vector of regression coefficients for latent class $j$.
 
-- Given the assignment of latent class $j \in \{ 1, 2, \dots, g \}$, the response variables $\mathbf{y}_{i}$ are modelled by an
-**expert function** $f_j(\mathbf{y}_{i}; \mathbf{\varphi}_j)$ with parameters $\mathbf{\varphi}_j$.
+- Given the assignment of latent class \ $j \in \{ 1, 2, \dots, g \}$, the response variables $\mathbf{y}_{i}$ are modelled by an
+**expert function** \ $f_j(\mathbf{y}_{i}; \mathbf{\varphi}_j)$ \ with parameters $\mathbf{\varphi}_j$.
 :::
 
 ## Example: 3-Component MoE
@@ -203,17 +203,17 @@ where $\mathbf{\alpha}_{j} = (\alpha_{j0}, \alpha_{j1}, \dots, \alpha_{jP})^{T}$
 ![](plots/moe-model-setup.png){width=450 fig-align="center"}
 
 ## More Details
-### Miltiple Logit for Classification
+### Multinomial Logit for Classification
 
 ::: incremental
-- We have assumed a multiple logistic gating function for classification into latent risk classes.
+- We have assumed a multinomial logistic gating function for classification into different latent risk classes.
 $$
     \pi_{j}(\mathbf{x}_{i}; \mathbf{\alpha}_{j}) = \frac{\exp(\mathbf{\alpha}^{T}_{j}\mathbf{x}_{i})}{\sum_{j^{\prime}=1}^{g} \exp(\mathbf{\alpha}^{T}_{j^{\prime}}\mathbf{x}_{i}) }, \quad j = 1, 2, \dots, g,
 $$
 
 - It is possible to pose other functions for this classification stage, e.g. a probit regression.
 
-- The multiple logistic regression is a good choice for its interpretability and ease of computational implementation.
+- The multinomial logistic regression is a good choice for its interpretability and ease of computational implementation.
 :::
 
 ## More Details
@@ -238,9 +238,9 @@ are homogeneous and independent of their covariates.
 ### Dependence of Response Variables
 
 ::: incremental
-- The response variables $\mathbf{y}_{i}$ may be multi-dimensional, e.g., $\mathbf{y}_{i} = (y_{i1}, y_{i2})$ 
+- The response variables $\mathbf{y}_{i}$ may be multi-dimensional, e.g. \ $\mathbf{y}_{i} = (y_{i1}, y_{i2})$ 
 for two auto insurance coverages purchased by the same policyholder.
-- In this case, we assume **conditional independence** between the two dimensions of $\mathbf{y}_{i}$,
+- In this case, we assume **conditional independence** between the two dimensions of $\mathbf{y}_{i}$, given the
 assignment of latent class $j$.
 - However, they are in fact **dependent** due to the mixture structure, which is essential for capturing
 the **correlation** between the two (or multiple) coverages observed in real insurance data.
@@ -273,9 +273,11 @@ it can be **as good as** the general MoE in terms of fitting the data.
   - LRMoE is **dense** in the class of MoE models.
   - LRMoE is **dense** in the class of (univariate and multivariate) frequency and severity distributions.
 
-- In short, LRMoE is theoretically guaranteed to be flexible and powerful.
+::: {.fragment .highlight-red}
+- ***In short, LRMoE is theoretically guaranteed to be flexible and powerful.***
+:::
 
-- Indeed, actuaries may perfer simpler models (like LRMoE) in practice for their interpretability and ease of implementation.
+- Indeed, actuaries may prefer simpler models (like LRMoE) in practice for their interpretability and ease of implementation.
 :::
 
 
@@ -290,14 +292,14 @@ We aim to demonstrate the following **desirable features** and **potential use c
 ::: incremental
 - Fitting both frequency and severity data with much better results
 
-- Modelling correlated claims frequency in a single framework
+- Modelling correlated claim frequency in a single framework
 
 - Dealing with censored/truncated data due to policy limits/deductibles
 
 - Extending to other problems such as claims reserving, IBNR prediction, and insurance risk selection
 :::
 
-## Univariate Frequency and Severity
+## 1. Univariate Frequency and Severity
 
 Our introductory examples on the Australian (*ausprivauto040*) and French (*freMTPLsev*)
 auto insurance datasets have already demonstrated the superior fitting performance of LRMoE 
@@ -308,7 +310,7 @@ compared to GLM.
 - French: 6 components of zero-inflated Lognormal
 :::
 
-**What expert functions (distributions) should one use?**
+**Question: What expert functions (distributions) should one use?**
 
 ::: {.columns}
 ::: {.column width="40%"}
@@ -336,14 +338,14 @@ e.g. suitable choices of expert functions.
 
 - In practice, the choice of expert functions depends on the following considerations:
   - **Preliminary Analysis**: Let the dataset speak for itself.
-  - **Domain Knowledge**: Models more powerful when combined with actuaries' discretion.
+  - **Domain Knowledge**: Models are more powerful when combined with actuaries' discretion.
   - **Trial and Error**: It never hurts to do some experimentation!
   - **Computational Constraints**: Sometimes it may be worthwhile to sacrifice some fitting performance
     for a faster workflow.
 
 :::
 
-## Correlated Claims Frequency 
+## 2. Correlated Claims Frequency 
 
 [@fung2019classapplication] considers fitting LRMoE to the frequency of two correlated claims:
 Third-Party Liability (TPL) and Car Damages (CD).
@@ -366,10 +368,9 @@ Five components are used based on the Bayesian Information Criterion (BIC).
 
 ## Empirical vs Fitted Distributions {.smaller}
 
-LRMoE with EC experts outperforms both NB GLM and ZINB GLM in terms of fitting the chi-squared
-statistic and the log-likelihood.
+LRMoE with EC experts outperforms both NB GLM and ZINB GLM in terms of fitting the chi-square statistic and the log-likelihood.
 
-{{< include tables/EUR-correlated-frequency-fit-table.md >}}
+{{< include tables/EUR-correlated-frequency-fit-table-1.md >}}
 
 ## Correlation and Higher Moments {.smaller}
 
@@ -379,7 +380,7 @@ which indicates the dependence is well captured.
 Besides, LRMoE also captures the higher-order moments of the two coverages better than
 the benchmark models.
 
-{{< include tables/EUR-correlated-frequency-moments-table.md >}}
+{{< include tables/EUR-correlated-frequency-moments-table-1.md >}}
 
 
 ## More Insights into Risk Profiles
@@ -416,7 +417,7 @@ but eventually had 1 TPL and 2 CD claims during the contract period.
 ![](plots/EUR-latent-probs.png){width=450 fig-align="center"}
 
 
-## Application to Risk Selection
+## 3. Application to Risk Selection
 
 How can we utilize such additional insights based on claim history?
 
@@ -453,7 +454,7 @@ from a major Canadian automobile insurer.
   - Covariates only: using heuristic rules on covariates such as driver/vehicle age, car class, etc.
   - Covariates + claim history: using the posterior predicted mean of the response.
 
-- We compare which losses are identified and how much is saved by eleminating the losses
+- We compare which losses are identified and how much is saved by eliminating the losses
 generated by the risky policyholders.
 
 - We will see **LRMoE outperforms by a huge margin**!
@@ -473,7 +474,7 @@ generated by the risky policyholders.
 ![](plots/CAN-cumulative.png){width=450 fig-align="center"}
 
 
-## Data Censoring and Truncation
+## 4. Data Censoring and Truncation
 
 Data censoring and truncation are common in insurance data, e.g. due to policy
 limits and deductibles, as well as the observation times for incurred but not reported (IBNR) claims.
@@ -497,7 +498,7 @@ a major European automobile insurer.
 <!-- We will focus the latter application on the prediction of IBNR claims. -->
 
 
-## IBNR Prediction
+## 5. IBNR Prediction
 
 [@fung2021new] considered LRMoE with Transformed Gamma (TG) experts, which is intended to 
 capture the heavy-tailedness.
@@ -505,11 +506,9 @@ capture the heavy-tailedness.
 ::: incremental
 - We fit **both** the severity and claim delay time with LRMoE using TG experts.
 
-- We assume **claim arrival** follows a non-homogeneous Poisson process, with intensity
-  dependent on policyholder covariates.
+- We assume **claim arrival** follows a non-homogeneous Poisson process, with intensity dependent on policyholder covariates.
 
-- Once these components are fitted, we can produce a predicted **distriution** of IBNR claims
-  for each policyholder at any valuation date.
+- Once these components are fitted, we can produce a predicted **distribution** of IBNR claims for each policyholder at any valuation date.
 :::
 
 . . .
@@ -551,8 +550,7 @@ A general introduction to finite mixture models can be found in [@mclachlan2019m
 
 . . .
 
-Implementing the estimation involves some customization based on the selection of 
-experts functions, as well as modifications based on the presence of censored and/or truncated data.
+Implementing the estimation involves some customization based on the selection of experts functions, as well as modifications based on the presence of censored and/or truncated data.
 
 ## We have already built the wheels!
 
@@ -616,7 +614,7 @@ various actuarial applications and mostly cannot be achieved using existing pack
 . . .
 
 While LRMoE(.jl) was initially developed for actuarial application, our packages also allow for 
-**customized expert functions** for various modelling problems in and out of the insurance context. 
+**customized expert functions** for various modelling problems within and beyond the insurance context. 
 
 ## Live Demo!
 
