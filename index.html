@@ -432,6 +432,7 @@ Ian Weng (Sophia) Chan
 <li><a href="#/a-crash-course-on-lrmoe" id="/toc-a-crash-course-on-lrmoe">A Crash Course on (LR)MoE</a></li>
 <li><a href="#/applications-in-actuarial-modelling" id="/toc-applications-in-actuarial-modelling">Applications in Actuarial Modelling</a></li>
 <li><a href="#/software-implementations" id="/toc-software-implementations">Software Implementations</a></li>
+<li><a href="#/summary" id="/toc-summary">Summary</a></li>
 <li><a href="#/appendix" id="/toc-appendix">Appendix</a></li>
 </ul>
 </nav>
@@ -1171,9 +1172,38 @@ Ian Weng (Sophia) Chan
 </section>
 <section id="ibnr-prediction" class="slide level2">
 <h2>IBNR Prediction</h2>
-<p><span class="citation" data-cites="fung2021new">(<a href="#/references" role="doc-biblioref" onclick="">Fung, Badescu, and Lin 2021a</a>)</span> considered LRMoE with Transformed Gamma (TG) experts, which is intended to capture the heavy-tailedness of both severity and claim delay.</p>
-<p>TODO: add illustrative figures</p>
-</section></section>
+<p><span class="citation" data-cites="fung2021new">(<a href="#/references" role="doc-biblioref" onclick="">Fung, Badescu, and Lin 2021a</a>)</span> considered LRMoE with Transformed Gamma (TG) experts, which is intended to capture the heavy-tailedness.</p>
+<div>
+<ul>
+<li class="fragment"><p>We fit <strong>both</strong> the severity and claim delay time with LRMoE using TG experts.</p></li>
+<li class="fragment"><p>We assume <strong>claim arrival</strong> follows a non-homogeneous Poisson process, with intensity dependent on policyholder covariates.</p></li>
+<li class="fragment"><p>Once these components are fitted, we can produce a predicted <strong>distriution</strong> of IBNR claims for each policyholder at any valuation date.</p></li>
+</ul>
+</div>
+<div class="fragment">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="plots/IBNR-illustration.png" width="800"></p>
+</figure>
+</div>
+</div>
+</section>
+<section id="heavy-tailedness-of-severity" class="slide level2">
+<h2>Heavy-Tailedness of Severity</h2>
+
+<img data-src="plots/IBNR-severity-comparison.png" width="1000" class="r-stretch quarto-figure-center"></section>
+<section id="fitted-severity-distribution" class="slide level2">
+<h2>Fitted Severity Distribution</h2>
+
+<img data-src="plots/IBNR-severity-fit.png" width="1000" class="r-stretch quarto-figure-center"></section>
+<section id="fitted-reporting-delay-distribution" class="slide level2">
+<h2>Fitted Reporting Delay Distribution</h2>
+
+<img data-src="plots/IBNR-delay-fit.png" width="1000" class="r-stretch quarto-figure-center"></section>
+<section id="predicted-ibnr-distribution" class="slide level2">
+<h2>Predicted IBNR Distribution</h2>
+
+<img data-src="plots/IBNR-prediction.png" width="1000" class="r-stretch quarto-figure-center"></section></section>
 <section>
 <section id="software-implementations" class="title-slide slide level1 center">
 <h1>Software Implementations</h1>
@@ -1228,7 +1258,49 @@ Ian Weng (Sophia) Chan
 </div>
 </div>
 <div class="fragment">
-<p>It is not difficult to interface with Python via packages like <code>PyJulia</code> <span class="citation" data-cites="takafumi_arakaki_2022_7340220">(<a href="#/references" role="doc-biblioref" onclick="">Arakaki et al. 2022</a>)</span> and <code>rpy2</code> (<a href="https://github.com/rpy2/rpy2">github</a>).</p>
+<p>It is not difficult to interface with Python via packages like <code>PyJulia</code> <span class="citation" data-cites="takafumi_arakaki_2022_7340220">(<a href="#/references" role="doc-biblioref" onclick="">Arakaki et al. 2022</a>)</span> and <code>rpy2</code> (<a href="https://github.com/rpy2/rpy2">github repository</a>).</p>
+</div>
+</section>
+<section id="package-highlights" class="slide level2">
+<h2>Package Highlights</h2>
+<p>Our software packages offer several new distinctive features which are motivated by various actuarial applications and mostly cannot be achieved using existing packages for mixture models.</p>
+<div>
+<ul>
+<li class="fragment">A wider coverage on frequency and severity distributions and their zero-inflated variants;</li>
+<li class="fragment">The flexibility to vary classes of distributions across components;</li>
+<li class="fragment">Parameter estimation under data censoring and truncation;</li>
+<li class="fragment">A collection of insurance rate making and reserving functions; and</li>
+<li class="fragment">Model selection and visualization tools.</li>
+</ul>
+</div>
+<div class="fragment">
+<p>While LRMoE(.jl) was initially developed for actuarial application, our packages also allow for <strong>customized expert functions</strong> for various modelling problems in and out of the insurance context.</p>
+</div>
+</section>
+<section id="live-demo" class="slide level2">
+<h2>Live Demo!</h2>
+<p>We will see <code>LRMoE.jl</code> in action, including data simulation and model fitting to similated and real datasets.</p>
+<ul>
+<li>Reproducible code available on <a href="https://github.com/UofTActuarial/Demo-LRMoE-jl">github</a></li>
+<li>Check out the complete documentation: <a href="https://actsci.utstat.utoronto.ca/LRMoE.jl/stable/">Julia</a> / <a href="https://actsci.utstat.utoronto.ca/LRMoE/">R</a></li>
+</ul>
+</section></section>
+<section>
+<section id="summary" class="title-slide slide level1 center">
+<h1>Summary</h1>
+
+</section>
+<section id="summary-1" class="slide level2">
+<h2>Summary</h2>
+<div>
+<ul>
+<li class="fragment"><p>GLM is popular with actuaries, but it may fail on complex insurance datasets.</p></li>
+<li class="fragment"><p>We introduced the <strong>LRMoE</strong> framework for insurance frequency and severity data, as well as many other applications.</p></li>
+<li class="fragment"><p>Our proposed model is shown to provide <strong>superior performance</strong> on various datasets and modelling problems.</p></li>
+<li class="fragment"><p>We have developed two software packages for LRMoE, which are <strong>open-source</strong> and <strong>readily available</strong> for use on real applications.</p></li>
+<li class="fragment"><p>Many potential extensions and applications for LRMoE are still ongoing… Keep an eye on our latest <a href="https://actsci.utstat.utoronto.ca/publication/">publications and presentations</a>!</p></li>
+<li class="fragment"><p>Our research group is always looking for collaborations. Please <a href="https://actsci.utstat.utoronto.ca/">reach out to us</a> if you have interesting and challenging problems to solve!</p></li>
+</ul>
 </div>
 </section></section>
 <section>
