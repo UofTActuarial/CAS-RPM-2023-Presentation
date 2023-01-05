@@ -500,9 +500,37 @@ a major European automobile insurer.
 ## IBNR Prediction
 
 [@fung2021new] considered LRMoE with Transformed Gamma (TG) experts, which is intended to 
-capture the heavy-tailedness of both severity and claim delay.
+capture the heavy-tailedness.
 
-TODO: add illustrative figures
+::: incremental
+- We fit **both** the severity and claim delay time with LRMoE using TG experts.
+
+- We assume **claim arrival** follows a non-homogeneous Poisson process, with intensity
+  dependent on policyholder covariates.
+
+- Once these components are fitted, we can produce a predicted **distriution** of IBNR claims
+  for each policyholder at any valuation date.
+:::
+
+. . .
+
+![](plots/IBNR-illustration.png){width=800 fig-align="center"}
+
+## Heavy-Tailedness of Severity
+
+![](plots/IBNR-severity-comparison.png){width=1000 fig-align="center"}
+
+## Fitted Severity Distribution
+
+![](plots/IBNR-severity-fit.png){width=1000 fig-align="center"}
+
+## Fitted Reporting Delay Distribution
+
+![](plots/IBNR-delay-fit.png){width=1000 fig-align="center"}
+
+## Predicted IBNR Distribution
+
+![](plots/IBNR-prediction.png){width=1000 fig-align="center"}
 
 
 # Software Implementations
@@ -569,7 +597,7 @@ library(LRMoE)
 . . .
 
 It is not difficult to interface with Python via packages like `PyJulia` [@takafumi_arakaki_2022_7340220] and
-`rpy2` ([github](https://github.com/rpy2/rpy2)).
+`rpy2` ([github repository](https://github.com/rpy2/rpy2)).
 
 
 ## Package Highlights
