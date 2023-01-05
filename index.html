@@ -411,7 +411,7 @@
 
 <section id="title-slide" class="quarto-title-block center">
   <h1 class="title">Mixture-of-Experts Models for Claim Frequency and Severity</h1>
-  <p class="subtitle">CAS RPM, Mar 15 2023, San Diego CA</p>
+  <p class="subtitle">CAS RPM, March 15, 2023, San Diego CA</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -444,7 +444,7 @@ Ian Weng (Sophia) Chan
 <li class="fragment"><p>We propose a flexible Mixture-of-Experts (MoE) framework for modelling claim frequency and severity, and for many other applications</p></li>
 <li class="fragment"><p>We showcase a few case studies to demonstrate the theoretical flexibility and wide applicability of the framework</p></li>
 <li class="fragment"><p>Our model has been implemented in Julia and R as open-source packages, readily available for a variety of applications</p></li>
-<li class="fragment"><p>Joint work by the <a href="https://actsci.utstat.utoronto.ca/">actuarial research group</a> at the University of Toronto: Tsz Chai (Samson) Fung, Spark Tseung, Prof.&nbsp;Andrei Badescu, and Prof.&nbsp;X. Sheldon Lin</p></li>
+<li class="fragment"><p>Joint work by the <a href="https://actsci.utstat.utoronto.ca/">actuarial research group</a> at the University of Toronto: &nbsp;&nbsp;&nbsp;&nbsp; Tsz Chai (Samson) Fung, Spark Tseung, Prof.&nbsp;Andrei Badescu, and Prof.&nbsp;X. Sheldon Lin</p></li>
 </ul>
 </div>
 </section>
@@ -536,7 +536,7 @@ Ian Weng (Sophia) Chan
 <h2>Covariates are important.</h2>
 <div>
 <ul>
-<li>Policyholders’ information, or covariates, are predictive of their risk profile.</li>
+<li>Policyholders’ information, or covariates, are predictive of their risk profiles.</li>
 <li>We may use <strong>regression</strong> to classify policyholders into different risk groups, and model each group separately.</li>
 </ul>
 </div>
@@ -554,14 +554,14 @@ Ian Weng (Sophia) Chan
 <p>This is an example of our proposed Mixture-of-Experts (MoE) framework.</p>
 <div>
 <ul>
-<li class="fragment">We first classify policyholders into different latent risk groups with a multiple logistic regression.</li>
+<li class="fragment">We first classify policyholders into different latent risk groups with a multinomial logistic regression.</li>
 <li class="fragment">Within each risk group, we model the response (frequency or severity) with an appropriate distribution (or expert).</li>
 </ul>
 </div>
 
 <img data-src="plots/model-structure.png" width="800" class="r-stretch quarto-figure-center"></section>
-<section id="moe-flexibile-and-powerful" class="slide level2">
-<h2>MoE: Flexibile and Powerful</h2>
+<section id="moe-flexible-and-powerful" class="slide level2">
+<h2>MoE: Flexible and Powerful</h2>
 <div>
 <ul>
 <li>The MoE framework is extremely flexible and powerful (more details later).</li>
@@ -577,8 +577,8 @@ Ian Weng (Sophia) Chan
 </div>
 </div>
 </section>
-<section id="moe-flexibile-and-powerful-1" class="slide level2">
-<h2>MoE: Flexibile and Powerful</h2>
+<section id="moe-flexible-and-powerful-1" class="slide level2">
+<h2>MoE: Flexible and Powerful</h2>
 <p>Example: French auto insurance data (<em>freMTPLsev</em>) in <em>CASDatasets</em> <span class="citation" data-cites="dutang2020package">(<a href="#/references" role="doc-biblioref" onclick="">Dutang and Charpentier 2020</a>)</span>, analyzed in <span class="citation" data-cites="tseung2021lrmoe">(<a href="#/references" role="doc-biblioref" onclick="">Tseung et al. 2021</a>)</span>.</p>
 <div class="columns">
 <div class="column" style="width:50%;">
@@ -605,11 +605,11 @@ Ian Weng (Sophia) Chan
 <h2>Model Setup</h2>
 <div>
 <ul>
-<li class="fragment"><p>Let <span class="math inline">\(\mathbf{x}_{i} = (x_{i0}, x_{i1}, \dots, x_{iP})^{T}\)</span> denote the <span class="math inline">\((P+1)\)</span>-dimensional covariate vector for policyholder <span class="math inline">\(i\)</span> for <span class="math inline">\(i=1, 2, \dots, n\)</span>.</p></li>
-<li class="fragment"><p>Based on the covariates, policyholder <span class="math inline">\(i\)</span> is classified into one of <span class="math inline">\(g\)</span> latent risk classes by a logit <strong>gating function</strong> <span class="math display">\[
+<li class="fragment"><p>Let <span class="math inline">\(\mathbf{x}_{i} = (x_{i0}, x_{i1}, \dots, x_{iP})^{T}\)</span> denote the <span class="math inline">\((P+1)\)</span>-dimensional covariate vector for policyholder <span class="math inline">\(i\)</span> &nbsp;for &nbsp;<span class="math inline">\(i=1, 2, \dots, n\)</span>.</p></li>
+<li class="fragment"><p>Based on the covariates, policyholder <span class="math inline">\(i\)</span> &nbsp;is classified into one of &nbsp;<span class="math inline">\(g\)</span> &nbsp;latent risk classes by a logit <strong>gating function</strong> <span class="math display">\[
   \pi_{j}(\mathbf{x}_{i}; \mathbf{\alpha}_{j}) = \frac{\exp(\mathbf{\alpha}^{T}_{j}\mathbf{x}_{i})}{\sum_{j^{\prime}=1}^{g} \exp(\mathbf{\alpha}^{T}_{j^{\prime}}\mathbf{x}_{i}) }, \quad j = 1, 2, \dots, g,
 \]</span> where <span class="math inline">\(\mathbf{\alpha}_{j} = (\alpha_{j0}, \alpha_{j1}, \dots, \alpha_{jP})^{T}\)</span> is a vector of regression coefficients for latent class <span class="math inline">\(j\)</span>.</p></li>
-<li class="fragment"><p>Given the assignment of latent class <span class="math inline">\(j \in \{ 1, 2, \dots, g \}\)</span>, the response variables <span class="math inline">\(\mathbf{y}_{i}\)</span> are modelled by an <strong>expert function</strong> <span class="math inline">\(f_j(\mathbf{y}_{i}; \mathbf{\varphi}_j)\)</span> with parameters <span class="math inline">\(\mathbf{\varphi}_j\)</span>.</p></li>
+<li class="fragment"><p>Given the assignment of latent class &nbsp;<span class="math inline">\(j \in \{ 1, 2, \dots, g \}\)</span>, the response variables <span class="math inline">\(\mathbf{y}_{i}\)</span> are modelled by an <strong>expert function</strong> &nbsp;<span class="math inline">\(f_j(\mathbf{y}_{i}; \mathbf{\varphi}_j)\)</span> &nbsp;with parameters <span class="math inline">\(\mathbf{\varphi}_j\)</span>.</p></li>
 </ul>
 </div>
 </section>
@@ -619,14 +619,14 @@ Ian Weng (Sophia) Chan
 <img data-src="plots/moe-model-setup.png" width="450" class="r-stretch quarto-figure-center"></section>
 <section id="more-details" class="slide level2">
 <h2>More Details</h2>
-<h3 id="miltiple-logit-for-classification">Miltiple Logit for Classification</h3>
+<h3 id="multinomial-logit-for-classification">Multinomial Logit for Classification</h3>
 <div>
 <ul>
-<li class="fragment"><p>We have assumed a multiple logistic gating function for classification into latent risk classes. <span class="math display">\[
+<li class="fragment"><p>We have assumed a multinomial logistic gating function for classification into different latent risk classes. <span class="math display">\[
   \pi_{j}(\mathbf{x}_{i}; \mathbf{\alpha}_{j}) = \frac{\exp(\mathbf{\alpha}^{T}_{j}\mathbf{x}_{i})}{\sum_{j^{\prime}=1}^{g} \exp(\mathbf{\alpha}^{T}_{j^{\prime}}\mathbf{x}_{i}) }, \quad j = 1, 2, \dots, g,
 \]</span></p></li>
 <li class="fragment"><p>It is possible to pose other functions for this classification stage, e.g.&nbsp;a probit regression.</p></li>
-<li class="fragment"><p>The multiple logistic regression is a good choice for its interpretability and ease of computational implementation.</p></li>
+<li class="fragment"><p>The multinomial logistic regression is a good choice for its interpretability and ease of computational implementation.</p></li>
 </ul>
 </div>
 </section>
@@ -648,8 +648,8 @@ Ian Weng (Sophia) Chan
 <h3 id="dependence-of-response-variables">Dependence of Response Variables</h3>
 <div>
 <ul>
-<li class="fragment">The response variables <span class="math inline">\(\mathbf{y}_{i}\)</span> may be multi-dimensional, e.g., <span class="math inline">\(\mathbf{y}_{i} = (y_{i1}, y_{i2})\)</span> for two auto insurance coverages purchased by the same policyholder.</li>
-<li class="fragment">In this case, we assume <strong>conditional independence</strong> between the two dimensions of <span class="math inline">\(\mathbf{y}_{i}\)</span>, assignment of latent class <span class="math inline">\(j\)</span>.</li>
+<li class="fragment">The response variables <span class="math inline">\(\mathbf{y}_{i}\)</span> may be multi-dimensional, e.g.&nbsp;&nbsp;<span class="math inline">\(\mathbf{y}_{i} = (y_{i1}, y_{i2})\)</span> for two auto insurance coverages purchased by the same policyholder.</li>
+<li class="fragment">In this case, we assume <strong>conditional independence</strong> between the two dimensions of <span class="math inline">\(\mathbf{y}_{i}\)</span>, given the assignment of latent class <span class="math inline">\(j\)</span>.</li>
 <li class="fragment">However, they are in fact <strong>dependent</strong> due to the mixture structure, which is essential for capturing the <strong>correlation</strong> between the two (or multiple) coverages observed in real insurance data.</li>
 <li class="fragment">An example on correlated frequency will be given later.</li>
 </ul>
@@ -681,8 +681,14 @@ Ian Weng (Sophia) Chan
 <li class="fragment">LRMoE is <strong>dense</strong> in the class of MoE models.</li>
 <li class="fragment">LRMoE is <strong>dense</strong> in the class of (univariate and multivariate) frequency and severity distributions.</li>
 </ul></li>
-<li class="fragment"><p>In short, LRMoE is theoretically guaranteed to be flexible and powerful.</p></li>
-<li class="fragment"><p>Indeed, actuaries may perfer simpler models (like LRMoE) in practice for their interpretability and ease of implementation.</p></li>
+</ul>
+<div class="fragment highlight-red">
+<ul>
+<li class="fragment"><strong><em>In short, LRMoE is theoretically guaranteed to be flexible and powerful.</em></strong></li>
+</ul>
+</div>
+<ul>
+<li class="fragment">Indeed, actuaries may prefer simpler models (like LRMoE) in practice for their interpretability and ease of implementation.</li>
 </ul>
 </div>
 </section></section>
@@ -698,14 +704,14 @@ Ian Weng (Sophia) Chan
 <div>
 <ul>
 <li class="fragment"><p>Fitting both frequency and severity data with much better results</p></li>
-<li class="fragment"><p>Modelling correlated claims frequency in a single framework</p></li>
+<li class="fragment"><p>Modelling correlated claim frequency in a single framework</p></li>
 <li class="fragment"><p>Dealing with censored/truncated data due to policy limits/deductibles</p></li>
 <li class="fragment"><p>Extending to other problems such as claims reserving, IBNR prediction, and insurance risk selection</p></li>
 </ul>
 </div>
 </section>
 <section id="univariate-frequency-and-severity" class="slide level2">
-<h2>Univariate Frequency and Severity</h2>
+<h2>1. Univariate Frequency and Severity</h2>
 <p>Our introductory examples on the Australian (<em>ausprivauto040</em>) and French (<em>freMTPLsev</em>) auto insurance datasets have already demonstrated the superior fitting performance of LRMoE compared to GLM.</p>
 <div>
 <ul>
@@ -713,7 +719,7 @@ Ian Weng (Sophia) Chan
 <li>French: 6 components of zero-inflated Lognormal</li>
 </ul>
 </div>
-<p><strong>What expert functions (distributions) should one use?</strong></p>
+<p><strong>Question: What expert functions (distributions) should one use?</strong></p>
 <div class="columns">
 <div class="column" style="width:40%;">
 <div class="quarto-figure quarto-figure-center">
@@ -748,7 +754,7 @@ Ian Weng (Sophia) Chan
 <li class="fragment">In practice, the choice of expert functions depends on the following considerations:
 <ul>
 <li class="fragment"><strong>Preliminary Analysis</strong>: Let the dataset speak for itself.</li>
-<li class="fragment"><strong>Domain Knowledge</strong>: Models more powerful when combined with actuaries’ discretion.</li>
+<li class="fragment"><strong>Domain Knowledge</strong>: Models are more powerful when combined with actuaries’ discretion.</li>
 <li class="fragment"><strong>Trial and Error</strong>: It never hurts to do some experimentation!</li>
 <li class="fragment"><strong>Computational Constraints</strong>: Sometimes it may be worthwhile to sacrifice some fitting performance for a faster workflow.</li>
 </ul></li>
@@ -756,7 +762,7 @@ Ian Weng (Sophia) Chan
 </div>
 </section>
 <section id="correlated-claims-frequency" class="slide level2">
-<h2>Correlated Claims Frequency</h2>
+<h2>2. Correlated Claims Frequency</h2>
 <p><span class="citation" data-cites="fung2019classapplication">(<a href="#/references" role="doc-biblioref" onclick="">Fung, Badescu, and Lin 2019a</a>)</span> considers fitting LRMoE to the frequency of two correlated claims: Third-Party Liability (TPL) and Car Damages (CD).</p>
 <div>
 <ul>
@@ -770,19 +776,21 @@ Ian Weng (Sophia) Chan
 </section>
 <section id="empirical-vs-fitted-distributions" class="slide level2 smaller">
 <h2>Empirical vs Fitted Distributions</h2>
-<p>LRMoE with EC experts outperforms both NB GLM and ZINB GLM in terms of fitting the chi-squared statistic and the log-likelihood.</p>
-<table style="width:100%;">
+<p>LRMoE with EC experts outperforms both NB GLM and ZINB GLM in terms of fitting the chi-square statistic and the log-likelihood.</p>
+<table>
 <colgroup>
-<col style="width: 7%">
-<col style="width: 10%">
+<col style="width: 8%">
+<col style="width: 9%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 11%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 8%">
 <col style="width: 9%">
 <col style="width: 9%">
 <col style="width: 9%">
-<col style="width: 7%">
-<col style="width: 10%">
-<col style="width: 10%">
-<col style="width: 10%">
-<col style="width: 10%">
+<col style="width: 12%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -791,6 +799,8 @@ Ian Weng (Sophia) Chan
 <th style="text-align: right;">Fitted</th>
 <th style="text-align: right;"></th>
 <th style="text-align: right;"></th>
+<th></th>
+<th></th>
 <th>CD</th>
 <th style="text-align: right;">Empirical</th>
 <th style="text-align: right;">Fitted</th>
@@ -806,6 +816,8 @@ Ian Weng (Sophia) Chan
 <td style="text-align: right;">ZINB</td>
 <td style="text-align: right;">LRMoE</td>
 <td></td>
+<td></td>
+<td></td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;">NB</td>
 <td style="text-align: right;">ZINB</td>
@@ -817,6 +829,8 @@ Ian Weng (Sophia) Chan
 <td style="text-align: right;">16975.06</td>
 <td style="text-align: right;">16976.66</td>
 <td style="text-align: right;">16965.19</td>
+<td></td>
+<td></td>
 <td>0</td>
 <td style="text-align: right;">14182</td>
 <td style="text-align: right;">14177.32</td>
@@ -829,6 +843,8 @@ Ian Weng (Sophia) Chan
 <td style="text-align: right;">972.64</td>
 <td style="text-align: right;">969.88</td>
 <td style="text-align: right;">1001.73</td>
+<td></td>
+<td></td>
 <td>1</td>
 <td style="text-align: right;">2499</td>
 <td style="text-align: right;">2498.57</td>
@@ -841,6 +857,8 @@ Ian Weng (Sophia) Chan
 <td style="text-align: right;">65.9</td>
 <td style="text-align: right;">66.81</td>
 <td style="text-align: right;">40.75</td>
+<td></td>
+<td></td>
 <td>2</td>
 <td style="text-align: right;">752</td>
 <td style="text-align: right;">810.45</td>
@@ -853,6 +871,8 @@ Ian Weng (Sophia) Chan
 <td style="text-align: right;">4.95</td>
 <td style="text-align: right;">5.14</td>
 <td style="text-align: right;">7.31</td>
+<td></td>
+<td></td>
 <td>3</td>
 <td style="text-align: right;">359</td>
 <td style="text-align: right;">307.02</td>
@@ -865,6 +885,8 @@ Ian Weng (Sophia) Chan
 <td style="text-align: right;">0.41</td>
 <td style="text-align: right;">0.45</td>
 <td style="text-align: right;">2.82</td>
+<td></td>
+<td></td>
 <td>4</td>
 <td style="text-align: right;">129</td>
 <td style="text-align: right;">125.77</td>
@@ -877,6 +899,8 @@ Ian Weng (Sophia) Chan
 <td style="text-align: right;">0.04</td>
 <td style="text-align: right;">0.05</td>
 <td style="text-align: right;">1.2</td>
+<td></td>
+<td></td>
 <td>5</td>
 <td style="text-align: right;">66</td>
 <td style="text-align: right;">54.19</td>
@@ -889,6 +913,8 @@ Ian Weng (Sophia) Chan
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
+<td></td>
+<td></td>
 <td>6</td>
 <td style="text-align: right;">22</td>
 <td style="text-align: right;">24.22</td>
@@ -901,6 +927,8 @@ Ian Weng (Sophia) Chan
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
+<td></td>
+<td></td>
 <td>7</td>
 <td style="text-align: right;">7</td>
 <td style="text-align: right;">11.15</td>
@@ -913,6 +941,8 @@ Ian Weng (Sophia) Chan
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;"></td>
+<td></td>
+<td></td>
 <td>8+</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">10.3</td>
@@ -925,6 +955,8 @@ Ian Weng (Sophia) Chan
 <td style="text-align: right;">81.31</td>
 <td style="text-align: right;">70.61</td>
 <td style="text-align: right;"><strong>5.66</strong></td>
+<td></td>
+<td></td>
 <td><span class="math inline">\(\chi^2\)</span></td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;">22.59</td>
@@ -937,6 +969,8 @@ Ian Weng (Sophia) Chan
 <td style="text-align: right;">-4224.94</td>
 <td style="text-align: right;">-4213.99</td>
 <td style="text-align: right;"><strong>-4208.77</strong></td>
+<td></td>
+<td></td>
 <td>loglik</td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;">-13279.18</td>
@@ -952,16 +986,18 @@ Ian Weng (Sophia) Chan
 <p>Besides, LRMoE also captures the higher-order moments of the two coverages better than the benchmark models.</p>
 <table style="width:100%;">
 <colgroup>
+<col style="width: 9%">
+<col style="width: 10%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 11%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 9%">
+<col style="width: 10%">
 <col style="width: 7%">
-<col style="width: 10%">
-<col style="width: 9%">
-<col style="width: 9%">
-<col style="width: 9%">
 <col style="width: 7%">
-<col style="width: 10%">
-<col style="width: 10%">
-<col style="width: 10%">
-<col style="width: 10%">
+<col style="width: 11%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -970,6 +1006,8 @@ Ian Weng (Sophia) Chan
 <th style="text-align: right;">Fitted</th>
 <th style="text-align: right;"></th>
 <th style="text-align: right;"></th>
+<th></th>
+<th></th>
 <th>CD</th>
 <th style="text-align: right;">Empirical</th>
 <th style="text-align: right;">Fitted</th>
@@ -985,6 +1023,8 @@ Ian Weng (Sophia) Chan
 <td style="text-align: right;">ZINB</td>
 <td style="text-align: right;">LRMoE</td>
 <td></td>
+<td></td>
+<td></td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;">NB</td>
 <td style="text-align: right;">ZINB</td>
@@ -996,6 +1036,8 @@ Ian Weng (Sophia) Chan
 <td style="text-align: right;">0.062</td>
 <td style="text-align: right;">0.062</td>
 <td style="text-align: right;">0.062</td>
+<td></td>
+<td></td>
 <td>mean</td>
 <td style="text-align: right;">0.34</td>
 <td style="text-align: right;">0.34</td>
@@ -1008,6 +1050,8 @@ Ian Weng (Sophia) Chan
 <td style="text-align: right;">0.01%</td>
 <td style="text-align: right;">0.00%</td>
 <td style="text-align: right;">0.16%</td>
+<td></td>
+<td></td>
 <td>% diff</td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;">-0.01%</td>
@@ -1020,6 +1064,8 @@ Ian Weng (Sophia) Chan
 <td style="text-align: right;">0.068</td>
 <td style="text-align: right;">0.068</td>
 <td style="text-align: right;">0.069</td>
+<td></td>
+<td></td>
 <td>variance</td>
 <td style="text-align: right;">0.649</td>
 <td style="text-align: right;">0.669</td>
@@ -1032,6 +1078,8 @@ Ian Weng (Sophia) Chan
 <td style="text-align: right;">-2.15%</td>
 <td style="text-align: right;">-1.86%</td>
 <td style="text-align: right;"><strong>-0.43%</strong></td>
+<td></td>
+<td></td>
 <td>% diff</td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;">3.08%</td>
@@ -1044,6 +1092,8 @@ Ian Weng (Sophia) Chan
 <td style="text-align: right;">4.522</td>
 <td style="text-align: right;">4.544</td>
 <td style="text-align: right;">5.096</td>
+<td></td>
+<td></td>
 <td>skewness</td>
 <td style="text-align: right;">3.265</td>
 <td style="text-align: right;">3.672</td>
@@ -1056,6 +1106,8 @@ Ian Weng (Sophia) Chan
 <td style="text-align: right;">-11.05%</td>
 <td style="text-align: right;">-10.62%</td>
 <td style="text-align: right;"><strong>0.24%</strong></td>
+<td></td>
+<td></td>
 <td>% diff</td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;">12.45%</td>
@@ -1068,6 +1120,8 @@ Ian Weng (Sophia) Chan
 <td style="text-align: right;">26.386</td>
 <td style="text-align: right;">26.755</td>
 <td style="text-align: right;">41.938</td>
+<td></td>
+<td></td>
 <td>kurtosis</td>
 <td style="text-align: right;">16.509</td>
 <td style="text-align: right;">23.063</td>
@@ -1080,6 +1134,8 @@ Ian Weng (Sophia) Chan
 <td style="text-align: right;">-34.44%</td>
 <td style="text-align: right;">-33.53%</td>
 <td style="text-align: right;"><strong>4.20%</strong></td>
+<td></td>
+<td></td>
 <td>% diff</td>
 <td style="text-align: right;"></td>
 <td style="text-align: right;">39.70%</td>
@@ -1113,7 +1169,7 @@ Ian Weng (Sophia) Chan
 
 <img data-src="plots/EUR-latent-probs.png" width="450" class="r-stretch quarto-figure-center"></section>
 <section id="application-to-risk-selection" class="slide level2">
-<h2>Application to Risk Selection</h2>
+<h2>3. Application to Risk Selection</h2>
 <p>How can we utilize such additional insights based on claim history?</p>
 <div>
 <ul>
@@ -1137,7 +1193,7 @@ Ian Weng (Sophia) Chan
 <li class="fragment">Covariates only: using heuristic rules on covariates such as driver/vehicle age, car class, etc.</li>
 <li class="fragment">Covariates + claim history: using the posterior predicted mean of the response.</li>
 </ul></li>
-<li class="fragment"><p>We compare which losses are identified and how much is saved by eleminating the losses generated by the risky policyholders.</p></li>
+<li class="fragment"><p>We compare which losses are identified and how much is saved by eliminating the losses generated by the risky policyholders.</p></li>
 <li class="fragment"><p>We will see <strong>LRMoE outperforms by a huge margin</strong>!</p></li>
 </ul>
 </div>
@@ -1155,7 +1211,7 @@ Ian Weng (Sophia) Chan
 
 <img data-src="plots/CAN-cumulative.png" width="450" class="r-stretch quarto-figure-center"></section>
 <section id="data-censoring-and-truncation" class="slide level2">
-<h2>Data Censoring and Truncation</h2>
+<h2>4. Data Censoring and Truncation</h2>
 <p>Data censoring and truncation are common in insurance data, e.g.&nbsp;due to policy limits and deductibles, as well as the observation times for incurred but not reported (IBNR) claims.</p>
 <div>
 <ul>
@@ -1171,13 +1227,13 @@ Ian Weng (Sophia) Chan
 <!-- We will focus the latter application on the prediction of IBNR claims. -->
 </section>
 <section id="ibnr-prediction" class="slide level2">
-<h2>IBNR Prediction</h2>
+<h2>5. IBNR Prediction</h2>
 <p><span class="citation" data-cites="fung2021new">(<a href="#/references" role="doc-biblioref" onclick="">Fung, Badescu, and Lin 2021a</a>)</span> considered LRMoE with Transformed Gamma (TG) experts, which is intended to capture the heavy-tailedness.</p>
 <div>
 <ul>
 <li class="fragment"><p>We fit <strong>both</strong> the severity and claim delay time with LRMoE using TG experts.</p></li>
 <li class="fragment"><p>We assume <strong>claim arrival</strong> follows a non-homogeneous Poisson process, with intensity dependent on policyholder covariates.</p></li>
-<li class="fragment"><p>Once these components are fitted, we can produce a predicted <strong>distriution</strong> of IBNR claims for each policyholder at any valuation date.</p></li>
+<li class="fragment"><p>Once these components are fitted, we can produce a predicted <strong>distribution</strong> of IBNR claims for each policyholder at any valuation date.</p></li>
 </ul>
 </div>
 <div class="fragment">
@@ -1274,7 +1330,7 @@ Ian Weng (Sophia) Chan
 </ul>
 </div>
 <div class="fragment">
-<p>While LRMoE(.jl) was initially developed for actuarial application, our packages also allow for <strong>customized expert functions</strong> for various modelling problems in and out of the insurance context.</p>
+<p>While LRMoE(.jl) was initially developed for actuarial application, our packages also allow for <strong>customized expert functions</strong> for various modelling problems within and beyond the insurance context.</p>
 </div>
 </section>
 <section id="live-demo" class="slide level2">
