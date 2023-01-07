@@ -301,6 +301,8 @@ We aim to demonstrate the following **desirable features** and **potential use c
 
 ## 1. Univariate Frequency and Severity
 
+<!-- {.smaller} -->
+
 Our introductory examples on the Australian (*ausprivauto040*) and French (*freMTPLsev*)
 auto insurance datasets have already demonstrated the superior fitting performance of LRMoE 
 compared to GLM.
@@ -310,19 +312,20 @@ compared to GLM.
 - French: 6 components of zero-inflated Lognormal
 :::
 
-**Question: What expert functions (distributions) should one use?**
+<!-- **Question: What expert functions (distributions) should one use?** -->
+Question: What expert functions (distributions) should one use?
 
 ::: {.columns}
 ::: {.column width="40%"}
-![](plots/AUS-hist-log-frequency.png){width=450 fig-align="center"}
+![](plots/AUS-hist-log-frequency.png){width=250 fig-align="center"}
 :::
 
 ::: {.column width="30%"}
-![](plots/FRA-hist-vs-fitted.png){width=450 fig-align="center"}
+![](plots/FRA-hist-vs-fitted.png){width=250 fig-align="center"}
 :::
 
 ::: {.column width="30%"}
-![](plots/FRA-qq-fitted.png){width=450 fig-align="center"}
+![](plots/FRA-qq-fitted.png){width=250 fig-align="center"}
 :::
 :::
 
