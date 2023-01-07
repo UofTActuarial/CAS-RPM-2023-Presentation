@@ -7,7 +7,7 @@
 <link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="index_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="index_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.2.280">
+  <meta name="generator" content="quarto-1.2.313">
 
   <meta name="author" content="Ian Weng (Sophia) Chan">
   <title>Mixture-of-Experts Models for Claim Frequency and Severity</title>
@@ -712,6 +712,7 @@ Ian Weng (Sophia) Chan
 </section>
 <section id="univariate-frequency-and-severity" class="slide level2">
 <h2>1. Univariate Frequency and Severity</h2>
+<!-- {.smaller} -->
 <p>Our introductory examples on the Australian (<em>ausprivauto040</em>) and French (<em>freMTPLsev</em>) auto insurance datasets have already demonstrated the superior fitting performance of LRMoE compared to GLM.</p>
 <div>
 <ul>
@@ -719,24 +720,25 @@ Ian Weng (Sophia) Chan
 <li>French: 6 components of zero-inflated Lognormal</li>
 </ul>
 </div>
-<p><strong>Question: What expert functions (distributions) should one use?</strong></p>
+<!-- **Question: What expert functions (distributions) should one use?** -->
+<p>Question: What expert functions (distributions) should one use?</p>
 <div class="columns">
 <div class="column" style="width:40%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="plots/AUS-hist-log-frequency.png" width="450"></p>
+<p><img data-src="plots/AUS-hist-log-frequency.png" width="250"></p>
 </figure>
 </div>
 </div><div class="column" style="width:30%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="plots/FRA-hist-vs-fitted.png" width="450"></p>
+<p><img data-src="plots/FRA-hist-vs-fitted.png" width="250"></p>
 </figure>
 </div>
 </div><div class="column" style="width:30%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="plots/FRA-qq-fitted.png" width="450"></p>
+<p><img data-src="plots/FRA-qq-fitted.png" width="250"></p>
 </figure>
 </div>
 </div>
