@@ -441,10 +441,11 @@ Ian Weng (Sophia) Chan
 <h2>Overview</h2>
 <div>
 <ul>
-<li class="fragment"><p>We propose a flexible Mixture-of-Experts (MoE) framework for modelling claim frequency and severity, and for many other applications</p></li>
-<li class="fragment"><p>We showcase a few case studies to demonstrate the theoretical flexibility and wide applicability of the framework</p></li>
+<li class="fragment"><p>We propose a flexible Mixture-of-Experts (MoE) framework for modelling claim frequency and severity, and for ratemaking, reserving and risk selection</p></li>
+<li class="fragment"><p>We showcase a few case studies to demonstrate the flexibility and wide applicability of the framework</p></li>
 <li class="fragment"><p>Our model has been implemented in Julia and R as open-source packages, readily available for a variety of applications</p></li>
 <li class="fragment"><p>Joint work by the <a href="https://actsci.utstat.utoronto.ca/">actuarial research group</a> at the University of Toronto: &nbsp;&nbsp;&nbsp;&nbsp; Tsz Chai (Samson) Fung, Spark Tseung, Prof.&nbsp;Andrei Badescu, and Prof.&nbsp;X. Sheldon Lin</p></li>
+<li class="fragment"><p>Visit <a href="https://actsci.utstat.utoronto.ca/">https://actsci.utstat.utoronto.ca/</a> for more!</p></li>
 </ul>
 </div>
 </section>
@@ -480,7 +481,7 @@ Ian Weng (Sophia) Chan
 <h2>GLM fails when…</h2>
 <div>
 <ul>
-<li><p>Claim frequency distribution is heavy-tailed.</p></li>
+<li><p>Claim frequency distribution is zero-inflated.</p></li>
 <li><p>There is an excess probability of zero claims.</p></li>
 </ul>
 </div>
@@ -519,7 +520,7 @@ Ian Weng (Sophia) Chan
 <h2>Insurance data are heterogeneous.</h2>
 <div>
 <ul>
-<li>Policyholders’ risk profiles are different, even within the same portfolio.</li>
+<li>Policyholders’ risk profiles are different, even within the same portfolio of, e.g.&nbsp;auto insurance or home insurance.</li>
 <li>One way to capture such heterogeneity is to use a <strong>mixture</strong> model.</li>
 </ul>
 </div>
@@ -551,11 +552,11 @@ Ian Weng (Sophia) Chan
 </section>
 <section id="moe-regression-mixture" class="slide level2">
 <h2>MoE = Regression + Mixture</h2>
-<p>This is an example of our proposed Mixture-of-Experts (MoE) framework.</p>
+<p>Here is an example on how to incorporate covariates into the Mixture-of-Experts (MoE) framework.</p>
 <div>
 <ul>
-<li class="fragment">We first classify policyholders into different latent risk groups with a multinomial logistic regression.</li>
-<li class="fragment">Within each risk group, we model the response (frequency or severity) with an appropriate distribution (or expert).</li>
+<li class="fragment">We first classify policyholders into different latent risk groups with a logistic regression.</li>
+<li class="fragment">Within each risk group, we model the response (frequency or severity) with an appropriate distribution.</li>
 </ul>
 </div>
 
@@ -564,15 +565,15 @@ Ian Weng (Sophia) Chan
 <h2>MoE: Flexible and Powerful</h2>
 <div>
 <ul>
-<li>The MoE framework is extremely flexible and powerful (more details later).</li>
-<li>For example, it offers a much better fit to data compared with GLM.</li>
+<li>The MoE framework can catch 3 patterns: regression, dependence, and distributional.</li>
+<li>For example, it offers a much better fit to data compared with GLM, as it can capture the nonlinear relationship between policyholder information and losses.</li>
 </ul>
 </div>
 <div class="fragment">
 <p>Example: Australian auto insurance data (<em>ausprivauto040</em>) in <em>CASDatasets</em> <span class="citation" data-cites="dutang2020package">(<a href="#/references" role="doc-biblioref" onclick="">Dutang and Charpentier 2020</a>)</span>, analyzed in <span class="citation" data-cites="badescu2021actuaryarticle">(<a href="#/references" role="doc-biblioref" onclick="">Badescu et al. 2021</a>)</span>.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="plots/AUS-hist-log-frequency.png" width="500"></p>
+<p><img data-src="plots/AUS-hist-log-frequency.png" width="400"></p>
 </figure>
 </div>
 </div>
@@ -605,90 +606,89 @@ Ian Weng (Sophia) Chan
 <h2>Model Setup</h2>
 <div>
 <ul>
-<li class="fragment"><p>Let <span class="math inline">\(\mathbf{x}_{i} = (x_{i0}, x_{i1}, \dots, x_{iP})^{T}\)</span> denote the <span class="math inline">\((P+1)\)</span>-dimensional covariate vector for policyholder <span class="math inline">\(i\)</span> &nbsp;for &nbsp;<span class="math inline">\(i=1, 2, \dots, n\)</span>.</p></li>
+<li class="fragment"><p>Let <span class="math inline">\(\mathbf{x}_{i} = (x_{i0}, x_{i1}, \dots, x_{iP})^{T}\)</span> denote the covariates for policyholder <span class="math inline">\(i\)</span> &nbsp;for &nbsp;<span class="math inline">\(i=1, 2, \dots, n\)</span>.</p></li>
 <li class="fragment"><p>Based on the covariates, policyholder <span class="math inline">\(i\)</span> &nbsp;is classified into one of &nbsp;<span class="math inline">\(g\)</span> &nbsp;latent risk classes by a logit <strong>gating function</strong> <span class="math display">\[
-  \pi_{j}(\mathbf{x}_{i}; \mathbf{\alpha}_{j}) = \frac{\exp(\mathbf{\alpha}^{T}_{j}\mathbf{x}_{i})}{\sum_{j^{\prime}=1}^{g} \exp(\mathbf{\alpha}^{T}_{j^{\prime}}\mathbf{x}_{i}) }, \quad j = 1, 2, \dots, g,
-\]</span> where <span class="math inline">\(\mathbf{\alpha}_{j} = (\alpha_{j0}, \alpha_{j1}, \dots, \alpha_{jP})^{T}\)</span> is a vector of regression coefficients for latent class <span class="math inline">\(j\)</span>.</p></li>
-<li class="fragment"><p>Given the assignment of latent class &nbsp;<span class="math inline">\(j \in \{ 1, 2, \dots, g \}\)</span>, the response variables <span class="math inline">\(\mathbf{y}_{i}\)</span> are modelled by an <strong>expert function</strong> &nbsp;<span class="math inline">\(f_j(\mathbf{y}_{i}; \mathbf{\varphi}_j)\)</span> &nbsp;with parameters <span class="math inline">\(\mathbf{\varphi}_j\)</span>.</p></li>
+  \pi_{j}(\mathbf{x}_{i}; \mathbf{\alpha}_{j}) = \frac{\exp(\sum_{k=0}^{P} \alpha_{jk} x_{ik})}{\sum_{j^{\prime}=1}^{g} \exp(\sum_{k^=0}^{P} \alpha_{j^{\prime}k} x_{ik}) }, \quad j = 1, 2, \dots, g,
+\]</span> where <span class="math inline">\(\mathbf{\alpha}_{j} = (\alpha_{j0}, \alpha_{j1}, \dots, \alpha_{jP})^{T}\)</span> are the regression coefficients for latent class <span class="math inline">\(j\)</span>.</p></li>
+<li class="fragment"><p>Given the assignment of latent class &nbsp;<span class="math inline">\(j \in \{ 1, 2, \dots, g \}\)</span>, the response variables <span class="math inline">\(\mathbf{y}_{i}\)</span> are modelled by an <strong>expert distribution function</strong> &nbsp;<span class="math inline">\(f_j(\mathbf{y}_{i}; \mathbf{\varphi}_j)\)</span> &nbsp;with parameters <span class="math inline">\(\mathbf{\varphi}_j\)</span>. Note that it <strong>does not</strong> depend on the covariates anymore.</p></li>
 </ul>
 </div>
 </section>
-<section id="example-3-component-moe" class="slide level2">
-<h2>Example: 3-Component MoE</h2>
+<section id="example-3-component-lrmoe" class="slide level2">
+<h2>Example: 3-Component LRMoE</h2>
 
+<!-- ## More Details
+### Multinomial Logit for Classification
+
+::: incremental
+- We have assumed a multinomial logistic gating function for classification into different latent risk classes.
+$$
+    \pi_{j}(\mathbf{x}_{i}; \mathbf{\alpha}_{j}) = \frac{\exp(\mathbf{\alpha}^{T}_{j}\mathbf{x}_{i})}{\sum_{j^{\prime}=1}^{g} \exp(\mathbf{\alpha}^{T}_{j^{\prime}}\mathbf{x}_{i}) }, \quad j = 1, 2, \dots, g,
+$$
+
+- It is possible to pose other functions for this classification stage, e.g. a probit regression.
+
+- The multinomial logistic regression is a good choice for its interpretability and ease of computational implementation.
+::: -->
+<!-- ## More Details
+### Expert Functions for the Claims/Losses
+
+::: incremental
+- In the expert functions $f_j(\mathbf{y}_{i}; \mathbf{\varphi}_j)$, we have assumed some **fixed** parameters
+$\mathbf{\varphi}_j$ which are **independent** of the covariates $\mathbf{x}_{i}$.
+
+- It is possible to also incorporate the covariates $\mathbf{x}_{i}$ in the parameters of the expert functions such that
+$$
+    f_j(\mathbf{y}_{i}; \mathbf{\varphi}_j(\mathbf{x}_{i})) = f_j(\mathbf{y}_{i}; \mathbf{\varphi}_j(\mathbf{x}_{i}, \mathbf{\beta}_j))
+$$
+where $\mathbf{\beta}_j$ is a vector of regression coefficients for $j$-th expert function.
+
+- The interpretation of our framework: the risk profiles of policyholders within the same latent group
+are homogeneous and independent of their covariates.
+::: -->
+<!-- ## More Details
+
+### Dependence of Response Variables
+
+::: incremental
+- The response variables $\mathbf{y}_{i}$ may be multi-dimensional, e.g. \ $\mathbf{y}_{i} = (y_{i1}, y_{i2})$ 
+for two auto insurance coverages purchased by the same policyholder.
+- In this case, we assume **conditional independence** between the two dimensions of $\mathbf{y}_{i}$, given the
+assignment of latent class $j$.
+- However, they are in fact **dependent** due to the mixture structure, which is essential for capturing
+the **correlation** between the two (or multiple) coverages observed in real insurance data.
+- An example on correlated frequency will be given later.
+::: -->
+<!-- ## LRMoE
+
+::: incremental
+- Our modelling framework is called the **Logit-weighted Reduced** Mixture-of-Experts (LRMoE) due to
+the simplifying assumptions on the expert functions.
+
+- It is a special case of the more general class of Mixture-of-Experts (MoE) models, see e.g. [@jordan1994hierarchical]
+(figure extracted from the paper).
+
+  ![](plots/jordan-general-moe-setup.png){width=500 fig-align="center"}
+::: -->
 <img data-src="plots/moe-model-setup.png" width="450" class="r-stretch quarto-figure-center"></section>
-<section id="more-details" class="slide level2">
-<h2>More Details</h2>
-<h3 id="multinomial-logit-for-classification">Multinomial Logit for Classification</h3>
+<section id="simpler-still-powerful" class="slide level2">
+<h2>Simpler, still powerful</h2>
 <div>
 <ul>
-<li class="fragment"><p>We have assumed a multinomial logistic gating function for classification into different latent risk classes. <span class="math display">\[
-  \pi_{j}(\mathbf{x}_{i}; \mathbf{\alpha}_{j}) = \frac{\exp(\mathbf{\alpha}^{T}_{j}\mathbf{x}_{i})}{\sum_{j^{\prime}=1}^{g} \exp(\mathbf{\alpha}^{T}_{j^{\prime}}\mathbf{x}_{i}) }, \quad j = 1, 2, \dots, g,
-\]</span></p></li>
-<li class="fragment"><p>It is possible to pose other functions for this classification stage, e.g.&nbsp;a probit regression.</p></li>
-<li class="fragment"><p>The multinomial logistic regression is a good choice for its interpretability and ease of computational implementation.</p></li>
-</ul>
-</div>
-</section>
-<section id="more-details-1" class="slide level2">
-<h2>More Details</h2>
-<h3 id="expert-functions-for-the-response">Expert Functions for the Response</h3>
-<div>
+<li class="fragment"><p>While our LRMoE framework is simpler (does not consider covariates in the distribution function), it is still flexible and powerful.</p></li>
+<li class="fragment"><p>Formally speaking <span class="citation" data-cites="fung2019classtheory">(<a href="#/references" role="doc-biblioref" onclick="">Fung, Badescu, and Lin 2019b</a>)</span>,</p>
 <ul>
-<li class="fragment"><p>In the expert functions <span class="math inline">\(f_j(\mathbf{y}_{i}; \mathbf{\varphi}_j)\)</span>, we have assumed some <strong>fixed</strong> parameters <span class="math inline">\(\mathbf{\varphi}_j\)</span> which are <strong>independent</strong> of the covariates <span class="math inline">\(\mathbf{x}_{i}\)</span>.</p></li>
-<li class="fragment"><p>It is possible to also incorporate the covariates <span class="math inline">\(\mathbf{x}_{i}\)</span> in the parameters of the expert functions such that <span class="math display">\[
-  f_j(\mathbf{y}_{i}; \mathbf{\varphi}_j(\mathbf{x}_{i})) = f_j(\mathbf{y}_{i}; \mathbf{\varphi}_j(\mathbf{x}_{i}, \mathbf{\beta}_j))
-\]</span> where <span class="math inline">\(\mathbf{\beta}_j\)</span> is a vector of regression coefficients for <span class="math inline">\(j\)</span>-th expert function.</p></li>
-<li class="fragment"><p>The interpretation of our framework: the risk profiles of policyholders within the same latent group are homogeneous and independent of their covariates.</p></li>
-</ul>
-</div>
-</section>
-<section id="more-details-2" class="slide level2">
-<h2>More Details</h2>
-<h3 id="dependence-of-response-variables">Dependence of Response Variables</h3>
-<div>
-<ul>
-<li class="fragment">The response variables <span class="math inline">\(\mathbf{y}_{i}\)</span> may be multi-dimensional, e.g.&nbsp;&nbsp;<span class="math inline">\(\mathbf{y}_{i} = (y_{i1}, y_{i2})\)</span> for two auto insurance coverages purchased by the same policyholder.</li>
-<li class="fragment">In this case, we assume <strong>conditional independence</strong> between the two dimensions of <span class="math inline">\(\mathbf{y}_{i}\)</span>, given the assignment of latent class <span class="math inline">\(j\)</span>.</li>
-<li class="fragment">However, they are in fact <strong>dependent</strong> due to the mixture structure, which is essential for capturing the <strong>correlation</strong> between the two (or multiple) coverages observed in real insurance data.</li>
-<li class="fragment">An example on correlated frequency will be given later.</li>
-</ul>
-</div>
-</section>
-<section id="lrmoe" class="slide level2">
-<h2>LRMoE</h2>
-<div>
-<ul>
-<li class="fragment"><p>Our modelling framework is called the <strong>Logit-weighted Reduced</strong> Mixture-of-Experts (LRMoE) due to the simplifying assumptions on the expert functions.</p></li>
-<li class="fragment"><p>It is a special case of the more general class of Mixture-of-Experts (MoE) models, see e.g. <span class="citation" data-cites="jordan1994hierarchical">(<a href="#/references" role="doc-biblioref" onclick="">Jordan and Jacobs 1994</a>)</span> (figure extracted from the paper).</p>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="plots/jordan-general-moe-setup.png" width="500"></p>
-</figure>
-</div></li>
-</ul>
-</div>
-</section>
-<section id="simpler-is-sometimes-better" class="slide level2">
-<h2>Simpler is sometimes better</h2>
-<h3 id="or-at-least-equally-good.">… or at least equally good.</h3>
-<div>
-<ul>
-<li class="fragment"><p>The general modelling framework of MoE is extremely flexible and powerful.</p></li>
-<li class="fragment"><p>However, our LRMoE framework has a much <strong>simpler</strong> structure and it can be <strong>as good as</strong> the general MoE in terms of fitting the data.</p></li>
-<li class="fragment"><p>Formally speaking, under mild conditions <span class="citation" data-cites="fung2019classtheory">(<a href="#/references" role="doc-biblioref" onclick="">Fung, Badescu, and Lin 2019b</a>)</span>,</p>
-<ul>
-<li class="fragment">LRMoE is <strong>dense</strong> in the class of MoE models.</li>
 <li class="fragment">LRMoE is <strong>dense</strong> in the class of (univariate and multivariate) frequency and severity distributions.</li>
 </ul></li>
 </ul>
 <div class="fragment highlight-red">
 <ul>
-<li class="fragment"><strong><em>In short, LRMoE is theoretically guaranteed to be flexible and powerful.</em></strong></li>
+<li class="fragment"><strong><em>LRMoE is theoretically guaranteed to be flexible and powerful!</em></strong></li>
 </ul>
 </div>
 <ul>
-<li class="fragment">Indeed, actuaries may prefer simpler models (like LRMoE) in practice for their interpretability and ease of implementation.</li>
+<li class="fragment"><p>Indeed, actuaries may prefer simpler models (like LRMoE) in practice for their interpretability and ease of implementation.</p></li>
+<li class="fragment"><p>Other advantages: (easier) estimation, tail-catching, capture multi-modality and dependency</p></li>
 </ul>
 </div>
 </section></section>
@@ -710,9 +710,8 @@ Ian Weng (Sophia) Chan
 </ul>
 </div>
 </section>
-<section id="univariate-frequency-and-severity" class="slide level2">
-<h2>1. Univariate Frequency and Severity</h2>
-<!-- {.smaller} -->
+<section id="frequency-and-severity" class="slide level2">
+<h2>1. Frequency and Severity</h2>
 <p>Our introductory examples on the Australian (<em>ausprivauto040</em>) and French (<em>freMTPLsev</em>) auto insurance datasets have already demonstrated the superior fitting performance of LRMoE compared to GLM.</p>
 <div>
 <ul>
@@ -720,7 +719,6 @@ Ian Weng (Sophia) Chan
 <li>French: 6 components of zero-inflated Lognormal</li>
 </ul>
 </div>
-<!-- **Question: What expert functions (distributions) should one use?** -->
 <p>Question: What expert functions (distributions) should one use?</p>
 <div class="columns">
 <div class="column" style="width:40%;">
@@ -748,12 +746,16 @@ Ian Weng (Sophia) Chan
 <h2>Theory vs Practice</h2>
 <div>
 <ul>
-<li class="fragment"><span class="citation" data-cites="fung2019classtheory">(<a href="#/references" role="doc-biblioref" onclick="">Fung, Badescu, and Lin 2019b</a>)</span> state that, in theory, LRMoE is flexible under <em>mild conditions</em>, e.g.&nbsp;suitable choices of expert functions.
+<li class="fragment"><p>In theory, LRMoE is flexible with suitable choices of expert functions.</p>
+<!-- - Frequency: Conway-Maxwell-Poisson, Renewal Count, etc.
+- Severity: Lognormal, Gamma, Inverse Gaussian, etc. --></li>
+<li class="fragment"><p>Our package currently supports:</p>
 <ul>
-<li class="fragment">Frequency: Conway-Maxwell-Poisson, Renewal Count, etc.</li>
-<li class="fragment">Severity: Lognormal, Gamma, Inverse Gaussian, etc.</li>
+<li class="fragment">Frequency: Binomial, Negative Binomial, Poisson, Gamma Count</li>
+<li class="fragment">Severity: Burr, Gamma, Inverse Gaussian, Lognormal, Weibull</li>
+<li class="fragment">…and the zero-inflated version of all the above!</li>
 </ul></li>
-<li class="fragment">In practice, the choice of expert functions depends on the following considerations:
+<li class="fragment"><p>In practice, the choice of expert functions depends on the following considerations:</p>
 <ul>
 <li class="fragment"><strong>Preliminary Analysis</strong>: Let the dataset speak for itself.</li>
 <li class="fragment"><strong>Domain Knowledge</strong>: Models are more powerful when combined with actuaries’ discretion.</li>
@@ -763,8 +765,8 @@ Ian Weng (Sophia) Chan
 </ul>
 </div>
 </section>
-<section id="correlated-claims-frequency" class="slide level2">
-<h2>2. Correlated Claims Frequency</h2>
+<section id="modelling-correlated-claims-frequency" class="slide level2">
+<h2>2. Modelling Correlated Claims Frequency</h2>
 <p><span class="citation" data-cites="fung2019classapplication">(<a href="#/references" role="doc-biblioref" onclick="">Fung, Badescu, and Lin 2019a</a>)</span> considers fitting LRMoE to the frequency of two correlated claims: Third-Party Liability (TPL) and Car Damages (CD).</p>
 <div>
 <ul>
@@ -1146,18 +1148,22 @@ Ian Weng (Sophia) Chan
 </tr>
 </tbody>
 </table>
-</section>
-<section id="more-insights-into-risk-profiles" class="slide level2">
-<h2>More Insights into Risk Profiles</h2>
-<p>Since LRMoE is a mixture-based model, we can gain more insights into the risk profiles of the policyholders via the latent class probabilities.</p>
-<div>
-<ul>
-<li class="fragment"><p>Let <span class="math inline">\(Z_{ij}\)</span> denote the indicator variable for the <span class="math inline">\(i\)</span>-th policyholder belonging to the <span class="math inline">\(j\)</span>-th latent risk group.</p></li>
-<li class="fragment"><p><strong>Prior</strong>: unconditional on claim information <span class="math inline">\(P(Z_{ij}=1|\mathbf{x}_i,\mathbf{\hat{\Phi}})=\pi_j(\mathbf{x}_i;\mathbf{\hat{\alpha}})\)</span>.</p></li>
-<li class="fragment"><p><strong>Posterior</strong>: conditional on claim information <span class="math inline">\(P(Z_{ij}=1|\mathbf{y}_i,\mathbf{x}_i,\mathbf{\hat{\Phi}})\)</span>, which can be calcuated in closed-form.</p></li>
-<li class="fragment"><p>By comparing the prior against the posterior, we can gain insights into the risk profiles of the policyholders based on their claim history in the current contract period, in addition to the fixed covariate information.</p></li>
-</ul>
-</div>
+<!-- ## More Insights into Risk Profiles
+
+Since LRMoE is a mixture-based model, we can gain more insights into the risk profiles of the
+policyholders via the latent class probabilities.
+
+::: incremental
+- Let $Z_{ij}$ denote the indicator variable for the $i$-th policyholder belonging to the $j$-th latent risk group.
+
+- **Prior**: unconditional on claim information $P(Z_{ij}=1|\mathbf{x}_i,\mathbf{\hat{\Phi}})=\pi_j(\mathbf{x}_i;\mathbf{\hat{\alpha}})$.
+
+- **Posterior**: conditional on claim information $P(Z_{ij}=1|\mathbf{y}_i,\mathbf{x}_i,\mathbf{\hat{\Phi}})$,
+which can be calcuated in closed-form.
+
+- By comparing the prior against the posterior, we can gain insights into the risk profiles of the policyholders
+based on their claim history in the current contract period, in addition to the fixed covariate information.
+::: -->
 </section>
 <section id="comparing-sample-policyholders" class="slide level2">
 <h2>Comparing Sample Policyholders</h2>
@@ -1169,31 +1175,39 @@ Ian Weng (Sophia) Chan
 </ul>
 </div>
 
+<!-- ## 3. Application to Risk Selection
+
+How can we utilize such additional insights based on claim history?
+
+::: incremental
+- If we **assume** the risk profile of the next contract period is the same as the current posterior,
+then we can use the posterior probabilities to identify the policyholders with high risk.
+
+- More specifically, policyholders with a high posterior probability
+$P(Z_{ij}=1|\mathbf{y}_i,\mathbf{x}_i,\mathbf{\hat{\Phi}})$ in the risky groups $j$ are 
+regarded as risky.
+
+- Alternatively, we can also look at the posterior mean of the response $\mathbf{Y}_{i}$, given the
+covariates $\mathbf{x}_i$ and the fitted parameters $(\mathbf{\hat{\alpha}}, \mathbf{\hat{\Phi}})$,
+as well as the claim history $\mathbf{y}_i$.
+
+:::
+
+. . .
+
+This assumption is quite strong and may not be statistically rigorous, compared with e.g. a random effects model
+for panel data. However, we will see this approach is already quite sufficient for practical purposes. -->
 <img data-src="plots/EUR-latent-probs.png" width="450" class="r-stretch quarto-figure-center"></section>
 <section id="application-to-risk-selection" class="slide level2">
 <h2>3. Application to Risk Selection</h2>
-<p>How can we utilize such additional insights based on claim history?</p>
-<div>
-<ul>
-<li class="fragment"><p>If we <strong>assume</strong> the risk profile of the next contract period is the same as the current posterior, then we can use the posterior probabilities to identify the policyholders with high risk.</p></li>
-<li class="fragment"><p>More specifically, policyholders with a high posterior probability <span class="math inline">\(P(Z_{ij}=1|\mathbf{y}_i,\mathbf{x}_i,\mathbf{\hat{\Phi}})\)</span> in the risky groups <span class="math inline">\(j\)</span> are regarded as risky.</p></li>
-<li class="fragment"><p>Alternatively, we can also look at the posterior mean of the response <span class="math inline">\(\mathbf{Y}_{i}\)</span>, given the covariates <span class="math inline">\(\mathbf{x}_i\)</span> and the fitted parameters <span class="math inline">\((\mathbf{\hat{\alpha}}, \mathbf{\hat{\Phi}})\)</span>, as well as the claim history <span class="math inline">\(\mathbf{y}_i\)</span>.</p></li>
-</ul>
-</div>
-<div class="fragment">
-<p>This assumption is quite strong and may not be statistically rigorous, compared with e.g.&nbsp;a random effects model for panel data. However, we will see this approach is already quite sufficient for practical purposes.</p>
-</div>
-</section>
-<section id="selection-of-risky-policyholders" class="slide level2">
-<h2>Selection of Risky Policyholders</h2>
-<p>In a working technical report, we apply the preceding risk selection approach to a real dataset from a major Canadian automobile insurer.</p>
+<p>In a working technical report, we apply risk selection approach to a real dataset from a major Canadian automobile insurer.</p>
 <div>
 <ul>
 <li class="fragment"><p>We consider a portfolio from 2014 to 2020.</p></li>
-<li class="fragment"><p>We re-fit the LRMoE model every half year, and select the top 5% most risky policyholders based on</p>
+<li class="fragment"><p>We re-fit the LRMoE model every half year, and select the top 5% most risky policyholders to cede to a risk-sharing pool, based on</p>
 <ul>
 <li class="fragment">Covariates only: using heuristic rules on covariates such as driver/vehicle age, car class, etc.</li>
-<li class="fragment">Covariates + claim history: using the posterior predicted mean of the response.</li>
+<li class="fragment">Covariates + claim history: using the predicted mean of the response adjusted by claim history.</li>
 </ul></li>
 <li class="fragment"><p>We compare which losses are identified and how much is saved by eliminating the losses generated by the risky policyholders.</p></li>
 <li class="fragment"><p>We will see <strong>LRMoE outperforms by a huge margin</strong>!</p></li>
@@ -1389,9 +1403,6 @@ Fung, Tsz Chai, Andrei L Badescu, and X Sheldon Lin. 2019a. <span>“A Class of 
 </div>
 <div id="ref-fung2021fitting" class="csl-entry" role="doc-biblioentry">
 ———. 2021b. <span>“Fitting Censored and Truncated Regression Data Using the Mixture of Experts Models.”</span> <em>North American Actuarial Journal</em>, 1–25.
-</div>
-<div id="ref-jordan1994hierarchical" class="csl-entry" role="doc-biblioentry">
-Jordan, Michael I, and Robert A Jacobs. 1994. <span>“Hierarchical Mixtures of Experts and the EM Algorithm.”</span> <em>Neural Computation</em> 6 (2): 181–214.
 </div>
 <div id="ref-mclachlan2007algorithm" class="csl-entry" role="doc-biblioentry">
 McLachlan, Geoffrey J, and Thriyambakam Krishnan. 2007. <em>The EM Algorithm and Extensions</em>. John Wiley &amp; Sons.
