@@ -444,7 +444,7 @@ Ian Weng (Sophia) Chan
 <li class="fragment"><p>We propose a flexible Mixture-of-Experts (MoE) framework for modelling claim frequency and severity, and for ratemaking, reserving and risk selection</p></li>
 <li class="fragment"><p>We showcase a few case studies to demonstrate the flexibility and wide applicability of the framework</p></li>
 <li class="fragment"><p>Our model has been implemented in Julia and R as open-source packages, readily available for a variety of applications</p></li>
-<li class="fragment"><p>Joint work by the <a href="https://actsci.utstat.utoronto.ca/">actuarial research group</a> at the University of Toronto: &nbsp;&nbsp;&nbsp;&nbsp; Tsz Chai (Samson) Fung, Spark Tseung, Prof.&nbsp;Andrei Badescu, and Prof.&nbsp;X. Sheldon Lin</p></li>
+<li class="fragment"><p>Joint work by the <a href="https://actsci.utstat.utoronto.ca/">actuarial research group</a> at the University of Toronto: &nbsp;&nbsp;&nbsp;&nbsp; Spark Tseung, Prof.&nbsp;Tsz Chai (Samson) Fung, Prof.&nbsp;Andrei Badescu, and Prof.&nbsp;X. Sheldon Lin</p></li>
 <li class="fragment"><p>Visit <a href="https://actsci.utstat.utoronto.ca/">https://actsci.utstat.utoronto.ca/</a> for more!</p></li>
 </ul>
 </div>
@@ -486,7 +486,7 @@ Ian Weng (Sophia) Chan
 </ul>
 </div>
 <div class="fragment">
-<p>Example: Australian auto insurance data (<em>ausprivauto040</em>) in <em>CASDatasets</em> <span class="citation" data-cites="dutang2020package">(<a href="#/references" role="doc-biblioref" onclick="">Dutang and Charpentier 2020</a>)</span>, analyzed in <span class="citation" data-cites="badescu2021actuaryarticle">(<a href="#/references" role="doc-biblioref" onclick="">Badescu et al. 2021</a>)</span>.</p>
+<p>Example: Australian auto insurance data (<em>ausprivauto040</em>) in <em>CASDatasets</em> <span class="citation" data-cites="dutang2020package">(<a href="#/references" role="doc-biblioref" onclick="">Dutang and Charpentier 2020</a>)</span>, GLM fit vs.&nbsp;empirical. <!-- analyzed in [@badescu2021actuaryarticle]. --></p>
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="plots/AUS-hist-log-frequency-ex-MoE.png" width="500"></p>
@@ -505,7 +505,7 @@ Ian Weng (Sophia) Chan
 <div class="fragment">
 <div class="columns">
 <div class="column" style="width:40%;">
-<p>Example: French auto insurance data (<em>freMTPLsev</em>) in <em>CASDatasets</em> <span class="citation" data-cites="dutang2020package">(<a href="#/references" role="doc-biblioref" onclick="">Dutang and Charpentier 2020</a>)</span>, analyzed in <span class="citation" data-cites="tseung2021lrmoe">(<a href="#/references" role="doc-biblioref" onclick="">Tseung et al. 2021</a>)</span>.</p>
+<p>Example: French auto insurance data (<em>freMTPLsev</em>) in <em>CASDatasets</em> <span class="citation" data-cites="dutang2020package">(<a href="#/references" role="doc-biblioref" onclick="">Dutang and Charpentier 2020</a>)</span>. <!-- analyzed in [@tseung2021lrmoe]. --></p>
 </div><div class="column" style="width:60%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -570,7 +570,7 @@ Ian Weng (Sophia) Chan
 </ul>
 </div>
 <div class="fragment">
-<p>Example: Australian auto insurance data (<em>ausprivauto040</em>) in <em>CASDatasets</em> <span class="citation" data-cites="dutang2020package">(<a href="#/references" role="doc-biblioref" onclick="">Dutang and Charpentier 2020</a>)</span>, analyzed in <span class="citation" data-cites="badescu2021actuaryarticle">(<a href="#/references" role="doc-biblioref" onclick="">Badescu et al. 2021</a>)</span>.</p>
+<p>Example: Australian auto insurance data (<em>ausprivauto040</em>) in <em>CASDatasets</em> <span class="citation" data-cites="dutang2020package">(<a href="#/references" role="doc-biblioref" onclick="">Dutang and Charpentier 2020</a>)</span>. Analyzed in <span class="citation" data-cites="badescu2021actuaryarticle">(<a href="#/references" role="doc-biblioref" onclick="">Badescu et al. 2021</a>)</span>, LRMoE provides a better fit than GLM.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="plots/AUS-hist-log-frequency.png" width="400"></p>
@@ -580,7 +580,7 @@ Ian Weng (Sophia) Chan
 </section>
 <section id="moe-flexible-and-powerful-1" class="slide level2">
 <h2>MoE: Flexible and Powerful</h2>
-<p>Example: French auto insurance data (<em>freMTPLsev</em>) in <em>CASDatasets</em> <span class="citation" data-cites="dutang2020package">(<a href="#/references" role="doc-biblioref" onclick="">Dutang and Charpentier 2020</a>)</span>, analyzed in <span class="citation" data-cites="tseung2021lrmoe">(<a href="#/references" role="doc-biblioref" onclick="">Tseung et al. 2021</a>)</span>.</p>
+<p>Example: French auto insurance data (<em>freMTPLsev</em>) in <em>CASDatasets</em> <span class="citation" data-cites="dutang2020package">(<a href="#/references" role="doc-biblioref" onclick="">Dutang and Charpentier 2020</a>)</span>. Analyzed in <span class="citation" data-cites="tseung2021lrmoe">(<a href="#/references" role="doc-biblioref" onclick="">Tseung et al. 2021</a>)</span>, LRMoE can provide good fit to data exhibiting multimodality.</p>
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
@@ -1241,41 +1241,39 @@ for panel data. However, we will see this approach is already quite sufficient f
 </ul>
 </div>
 <!-- We will focus the latter application on the prediction of IBNR claims. -->
-</section>
-<section id="ibnr-prediction" class="slide level2">
-<h2>5. IBNR Prediction</h2>
-<p><span class="citation" data-cites="fung2021new">(<a href="#/references" role="doc-biblioref" onclick="">Fung, Badescu, and Lin 2021a</a>)</span> considered LRMoE with Transformed Gamma (TG) experts, which is intended to capture the heavy-tailedness.</p>
-<div>
-<ul>
-<li class="fragment"><p>We fit <strong>both</strong> the severity and claim delay time with LRMoE using TG experts.</p></li>
-<li class="fragment"><p>We assume <strong>claim arrival</strong> follows a non-homogeneous Poisson process, with intensity dependent on policyholder covariates.</p></li>
-<li class="fragment"><p>Once these components are fitted, we can produce a predicted <strong>distribution</strong> of IBNR claims for each policyholder at any valuation date.</p></li>
-</ul>
-</div>
-<div class="fragment">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="plots/IBNR-illustration.png" width="800"></p>
-</figure>
-</div>
-</div>
-</section>
-<section id="heavy-tailedness-of-severity" class="slide level2">
-<h2>Heavy-Tailedness of Severity</h2>
+<!-- ## 5. IBNR Prediction
 
-<img data-src="plots/IBNR-severity-comparison.png" width="1000" class="r-stretch quarto-figure-center"></section>
-<section id="fitted-severity-distribution" class="slide level2">
-<h2>Fitted Severity Distribution</h2>
+[@fung2021new] considered LRMoE with Transformed Gamma (TG) experts, which is intended to 
+capture the heavy-tailedness.
 
-<img data-src="plots/IBNR-severity-fit.png" width="1000" class="r-stretch quarto-figure-center"></section>
-<section id="fitted-reporting-delay-distribution" class="slide level2">
-<h2>Fitted Reporting Delay Distribution</h2>
+::: incremental
+- We fit **both** the severity and claim delay time with LRMoE using TG experts.
 
-<img data-src="plots/IBNR-delay-fit.png" width="1000" class="r-stretch quarto-figure-center"></section>
-<section id="predicted-ibnr-distribution" class="slide level2">
-<h2>Predicted IBNR Distribution</h2>
+- We assume **claim arrival** follows a non-homogeneous Poisson process, with intensity dependent on policyholder covariates.
 
-<img data-src="plots/IBNR-prediction.png" width="1000" class="r-stretch quarto-figure-center"></section></section>
+- Once these components are fitted, we can produce a predicted **distribution** of IBNR claims for each policyholder at any valuation date.
+:::
+
+. . .
+
+![](plots/IBNR-illustration.png){width=800 fig-align="center"}
+
+## Heavy-Tailedness of Severity
+
+![](plots/IBNR-severity-comparison.png){width=1000 fig-align="center"}
+
+## Fitted Severity Distribution
+
+![](plots/IBNR-severity-fit.png){width=1000 fig-align="center"}
+
+## Fitted Reporting Delay Distribution
+
+![](plots/IBNR-delay-fit.png){width=1000 fig-align="center"}
+
+## Predicted IBNR Distribution
+
+![](plots/IBNR-prediction.png){width=1000 fig-align="center"} -->
+</section></section>
 <section>
 <section id="software-implementations" class="title-slide slide level1 center">
 <h1>Software Implementations</h1>
