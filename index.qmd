@@ -35,7 +35,7 @@ format:
 
 - Our model has been implemented in Julia and R as open-source packages, readily available for a variety of applications
 
-- Joint work by the [actuarial research group](https://actsci.utstat.utoronto.ca/) at the University of Toronto: \ \ \ \  Tsz Chai (Samson) Fung, Spark Tseung, Prof. Andrei Badescu, and Prof. X. Sheldon Lin
+- Joint work by the [actuarial research group](https://actsci.utstat.utoronto.ca/) at the University of Toronto: \ \ \ \  Spark Tseung, Prof. Tsz Chai (Samson) Fung, Prof. Andrei Badescu, and Prof. X. Sheldon Lin
 
 - Visit [https://actsci.utstat.utoronto.ca/](https://actsci.utstat.utoronto.ca/) for more!
 :::
@@ -78,8 +78,8 @@ format:
 
 . . .
 
-Example: Australian auto insurance data (*ausprivauto040*) in *CASDatasets* [@dutang2020package],
-analyzed in [@badescu2021actuaryarticle].
+Example: Australian auto insurance data (*ausprivauto040*) in *CASDatasets* [@dutang2020package], GLM fit vs. empirical.
+<!-- analyzed in [@badescu2021actuaryarticle]. -->
 
 ![](plots/AUS-hist-log-frequency-ex-MoE.png){width=500 fig-align="center"}
 
@@ -97,8 +97,8 @@ analyzed in [@badescu2021actuaryarticle].
 
 ::: {.columns}
 ::: {.column width="40%"}
-Example: French auto insurance data (*freMTPLsev*) in *CASDatasets* [@dutang2020package],
-analyzed in [@tseung2021lrmoe].
+Example: French auto insurance data (*freMTPLsev*) in *CASDatasets* [@dutang2020package].
+<!-- analyzed in [@tseung2021lrmoe]. -->
 :::
 
 ::: {.column width="60%"}
@@ -160,8 +160,7 @@ Here is an example on how to incorporate covariates into the Mixture-of-Experts 
 
 . . .
 
-Example: Australian auto insurance data (*ausprivauto040*) in *CASDatasets* [@dutang2020package],
-analyzed in [@badescu2021actuaryarticle].
+Example: Australian auto insurance data (*ausprivauto040*) in *CASDatasets* [@dutang2020package].  Analyzed in [@badescu2021actuaryarticle], LRMoE provides a better fit than GLM.
 
 ![](plots/AUS-hist-log-frequency.png){width=400 fig-align="center"}
 
@@ -169,8 +168,7 @@ analyzed in [@badescu2021actuaryarticle].
 
 ## MoE: Flexible and Powerful
 
-Example: French auto insurance data (*freMTPLsev*) in *CASDatasets* [@dutang2020package],
-analyzed in [@tseung2021lrmoe].
+Example: French auto insurance data (*freMTPLsev*) in *CASDatasets* [@dutang2020package]. Analyzed in [@tseung2021lrmoe], LRMoE can provide good fit to data exhibiting multimodality.
 
 ::: {.columns}
 ::: {.column width="50%"}
@@ -498,7 +496,7 @@ a major European automobile insurer.
 <!-- We will focus the latter application on the prediction of IBNR claims. -->
 
 
-## 5. IBNR Prediction
+<!-- ## 5. IBNR Prediction
 
 [@fung2021new] considered LRMoE with Transformed Gamma (TG) experts, which is intended to 
 capture the heavy-tailedness.
@@ -529,7 +527,7 @@ capture the heavy-tailedness.
 
 ## Predicted IBNR Distribution
 
-![](plots/IBNR-prediction.png){width=1000 fig-align="center"}
+![](plots/IBNR-prediction.png){width=1000 fig-align="center"} -->
 
 
 # Software Implementations
