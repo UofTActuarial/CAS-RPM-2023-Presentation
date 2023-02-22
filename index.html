@@ -7,7 +7,7 @@
 <link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="index_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="index_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.2.313">
+  <meta name="generator" content="quarto-1.2.335">
 
   <meta name="author" content="Ian Weng (Sophia) Chan">
   <title>Mixture-of-Experts Models for Claim Frequency and Severity</title>
@@ -424,38 +424,30 @@ Ian Weng (Sophia) Chan
     </div>
 </div>
 
-</section><section id="TOC">
-<nav role="doc-toc"> 
-<h2 id="toc-title">Table of contents</h2>
-<ul>
-<li><a href="#/motivating-examples" id="/toc-motivating-examples">Motivating Examples</a></li>
-<li><a href="#/a-crash-course-on-lrmoe" id="/toc-a-crash-course-on-lrmoe">A Crash Course on (LR)MoE</a></li>
-<li><a href="#/applications-in-actuarial-modelling" id="/toc-applications-in-actuarial-modelling">Applications in Actuarial Modelling</a></li>
-<li><a href="#/software-implementations" id="/toc-software-implementations">Software Implementations</a></li>
-<li><a href="#/summary" id="/toc-summary">Summary</a></li>
-<li><a href="#/appendix" id="/toc-appendix">Appendix</a></li>
-</ul>
-</nav>
 </section>
+<section class="slide level2">
+
+
+<img data-src="plots/meet-the-team.jpg" class="r-stretch quarto-figure-center"></section>
 <section id="overview" class="slide level2">
 <h2>Overview</h2>
 <div>
 <ul>
-<li class="fragment"><p>We propose a flexible Mixture-of-Experts (MoE) framework for modelling claim frequency and severity, and for ratemaking, reserving and risk selection</p></li>
-<li class="fragment"><p>We showcase a few case studies to demonstrate the flexibility and wide applicability of the framework</p></li>
-<li class="fragment"><p>Our model has been implemented in Julia and R as open-source packages, readily available for a variety of applications</p></li>
-<li class="fragment"><p>Joint work by the <a href="https://actsci.utstat.utoronto.ca/">actuarial research group</a> at the University of Toronto: &nbsp;&nbsp;&nbsp;&nbsp; Spark Tseung, Prof.&nbsp;Tsz Chai (Samson) Fung, Prof.&nbsp;Andrei Badescu, and Prof.&nbsp;X. Sheldon Lin</p></li>
+<li class="fragment"><p>We propose a flexible Mixture-of-Experts (MoE) framework for modelling claim frequency and severity, and for ratemaking, reserving and risk selection.</p></li>
+<li class="fragment"><p>We showcase a few case studies to demonstrate the flexibility and wide applicability of the framework.</p></li>
+<li class="fragment"><p>Our model has been implemented in Julia and R as open-source packages, readily available for a variety of applications.</p></li>
+<li class="fragment"><p>Joint work by the <a href="https://actsci.utstat.utoronto.ca/">actuarial science research group</a> at the University of Toronto: Spark Tseung, Prof.&nbsp;Tsz Chai (Samson) Fung, Prof.&nbsp;Andrei Badescu, and Prof.&nbsp;X. Sheldon Lin.</p></li>
 <li class="fragment"><p>Visit <a href="https://actsci.utstat.utoronto.ca/">https://actsci.utstat.utoronto.ca/</a> for more!</p></li>
 </ul>
 </div>
 </section>
 <section>
-<section id="motivating-examples" class="title-slide slide level1 center">
-<h1>Motivating Examples</h1>
+<section id="motivation" class="title-slide slide level1 center">
+<h1>Motivation</h1>
 
 </section>
 <section id="actuaries-glm-is-great" class="slide level2">
-<h2>Actuaries: GLM is great!</h2>
+<h2>Actuaries: GLM Is Great!</h2>
 <div class="columns">
 <div class="column" style="width:60%;">
 <div>
@@ -478,7 +470,7 @@ Ian Weng (Sophia) Chan
 </div>
 </section>
 <section id="glm-fails-when" class="slide level2">
-<h2>GLM fails when…</h2>
+<h2>GLM Fails when…</h2>
 <div>
 <ul>
 <li><p>Claim frequency distribution is zero-inflated.</p></li>
@@ -495,7 +487,7 @@ Ian Weng (Sophia) Chan
 </div>
 </section>
 <section id="glm-fails-when-1" class="slide level2">
-<h2>GLM fails when…</h2>
+<h2>GLM Fails when…</h2>
 <div>
 <ul>
 <li><p>Claim severity distribution is multimodal and/or heavy-tailed.</p></li>
@@ -516,11 +508,11 @@ Ian Weng (Sophia) Chan
 </div>
 </div>
 </section>
-<section id="insurance-data-are-heterogeneous." class="slide level2">
-<h2>Insurance data are heterogeneous.</h2>
+<section id="insurance-data-are-heterogeneous" class="slide level2">
+<h2>Insurance Data Are Heterogeneous</h2>
 <div>
 <ul>
-<li>Policyholders’ risk profiles are different, even within the same portfolio of, e.g.&nbsp;auto insurance or home insurance.</li>
+<li>Policyholders’ risk profiles are different even within the same portfolio of, e.g.&nbsp;auto insurance or home insurance.</li>
 <li>One way to capture such heterogeneity is to use a <strong>mixture</strong> model.</li>
 </ul>
 </div>
@@ -533,12 +525,12 @@ Ian Weng (Sophia) Chan
 </div>
 </div>
 </section>
-<section id="covariates-are-important." class="slide level2">
-<h2>Covariates are important.</h2>
+<section id="covariates-are-important" class="slide level2">
+<h2>Covariates Are Important</h2>
 <div>
 <ul>
 <li>Policyholders’ information, or covariates, are predictive of their risk profiles.</li>
-<li>We may use <strong>regression</strong> to classify policyholders into different risk groups, and model each group separately.</li>
+<li>We may use <strong>regression</strong> to classify policyholders into different risk groups, and model each of these more homogeneous groups separately.</li>
 </ul>
 </div>
 <div class="fragment">
@@ -555,7 +547,7 @@ Ian Weng (Sophia) Chan
 <p>Here is an example on how to incorporate covariates into the Mixture-of-Experts (MoE) framework.</p>
 <div>
 <ul>
-<li class="fragment">We first classify policyholders into different latent risk groups with a logistic regression.</li>
+<li class="fragment">Based on the covariates, we first classify policyholders into different latent risk groups with a logistic regression.</li>
 <li class="fragment">Within each risk group, we model the response (frequency or severity) with an appropriate distribution.</li>
 </ul>
 </div>
@@ -565,12 +557,14 @@ Ian Weng (Sophia) Chan
 <h2>MoE: Flexible and Powerful</h2>
 <div>
 <ul>
-<li>The MoE framework can catch 3 patterns: regression, dependence, and distributional.</li>
-<li>For example, it offers a much better fit to data compared with GLM, as it can capture the nonlinear relationship between policyholder information and losses.</li>
+<li>The MoE framework can catch three patterns: regression, dependence, and distributional.</li>
+<li>For example, it offers a much better fit to data compared with GLM, as it can capture the nonlinear relationship between covariates and losses.</li>
 </ul>
 </div>
 <div class="fragment">
+<div style="font-size: 0.85em">
 <p>Example: Australian auto insurance data (<em>ausprivauto040</em>) in <em>CASDatasets</em> <span class="citation" data-cites="dutang2020package">(<a href="#/references" role="doc-biblioref" onclick="">Dutang and Charpentier 2020</a>)</span>. Analyzed in <span class="citation" data-cites="badescu2021actuaryarticle">(<a href="#/references" role="doc-biblioref" onclick="">Badescu et al. 2021</a>)</span>, LRMoE provides a better fit than GLM.</p>
+</div>
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="plots/AUS-hist-log-frequency.png" width="400"></p>
@@ -610,7 +604,7 @@ Ian Weng (Sophia) Chan
 <li class="fragment"><p>Based on the covariates, policyholder <span class="math inline">\(i\)</span> &nbsp;is classified into one of &nbsp;<span class="math inline">\(g\)</span> &nbsp;latent risk classes by a logit <strong>gating function</strong> <span class="math display">\[
   \pi_{j}(\mathbf{x}_{i}; \mathbf{\alpha}_{j}) = \frac{\exp(\sum_{k=0}^{P} \alpha_{jk} x_{ik})}{\sum_{j^{\prime}=1}^{g} \exp(\sum_{k^=0}^{P} \alpha_{j^{\prime}k} x_{ik}) }, \quad j = 1, 2, \dots, g,
 \]</span> where <span class="math inline">\(\mathbf{\alpha}_{j} = (\alpha_{j0}, \alpha_{j1}, \dots, \alpha_{jP})^{T}\)</span> are the regression coefficients for latent class <span class="math inline">\(j\)</span>.</p></li>
-<li class="fragment"><p>Given the assignment of latent class &nbsp;<span class="math inline">\(j \in \{ 1, 2, \dots, g \}\)</span>, the response variables <span class="math inline">\(\mathbf{y}_{i}\)</span> are modelled by an <strong>expert distribution function</strong> &nbsp;<span class="math inline">\(f_j(\mathbf{y}_{i}; \mathbf{\varphi}_j)\)</span> &nbsp;with parameters <span class="math inline">\(\mathbf{\varphi}_j\)</span>. Note that it <strong>does not</strong> depend on the covariates anymore.</p></li>
+<li class="fragment"><p>Given the assignment of latent class &nbsp;<span class="math inline">\(j \in \{ 1, 2, \dots, g \}\)</span>, the response variables <span class="math inline">\(\mathbf{y}_{i}\)</span> are modelled by an <strong>expert distribution function</strong> &nbsp;<span class="math inline">\(f_j(\mathbf{y}_{i}; \mathbf{\varphi}_j)\)</span> with parameters <span class="math inline">\(\mathbf{\varphi}_j\)</span>. Note that it <strong>does not</strong> depend on the covariates.</p></li>
 </ul>
 </div>
 </section>
@@ -672,7 +666,7 @@ the simplifying assumptions on the expert functions.
 ::: -->
 <img data-src="plots/moe-model-setup.png" width="450" class="r-stretch quarto-figure-center"></section>
 <section id="simpler-still-powerful" class="slide level2">
-<h2>Simpler, still powerful</h2>
+<h2>Simpler, Still Powerful</h2>
 <div>
 <ul>
 <li class="fragment"><p>While our LRMoE framework is simpler (does not consider covariates in the distribution function), it is still flexible and powerful.</p></li>
@@ -703,10 +697,10 @@ the simplifying assumptions on the expert functions.
 <p>We aim to demonstrate the following <strong>desirable features</strong> and <strong>potential use cases</strong> of our framework for actuarial modelling.</p>
 <div>
 <ul>
-<li class="fragment"><p>Fitting both frequency and severity data with much better results</p></li>
-<li class="fragment"><p>Modelling correlated claim frequency in a single framework</p></li>
-<li class="fragment"><p>Dealing with censored/truncated data due to policy limits/deductibles</p></li>
-<li class="fragment"><p>Extending to other problems such as claims reserving, IBNR prediction, and insurance risk selection</p></li>
+<li class="fragment"><p>Fitting both frequency and severity data with much better results.</p></li>
+<li class="fragment"><p>Modelling correlated claim frequency in a single framework.</p></li>
+<li class="fragment"><p>Dealing with censored/truncated data due to policy limits/deductibles.</p></li>
+<li class="fragment"><p>Extending to other problems such as insurance risk selection, claims reserving and IBNR prediction.</p></li>
 </ul>
 </div>
 </section>
@@ -719,7 +713,7 @@ the simplifying assumptions on the expert functions.
 <li>French: 6 components of zero-inflated Lognormal</li>
 </ul>
 </div>
-<p>Question: What expert functions (distributions) should one use?</p>
+<p><strong>Question:</strong> What expert functions (distributions) should one use?</p>
 <div class="columns">
 <div class="column" style="width:40%;">
 <div class="quarto-figure quarto-figure-center">
@@ -746,16 +740,14 @@ the simplifying assumptions on the expert functions.
 <h2>Theory vs Practice</h2>
 <div>
 <ul>
-<li class="fragment"><p>In theory, LRMoE is flexible with suitable choices of expert functions.</p>
-<!-- - Frequency: Conway-Maxwell-Poisson, Renewal Count, etc.
-- Severity: Lognormal, Gamma, Inverse Gaussian, etc. --></li>
-<li class="fragment"><p>Our package currently supports:</p>
+<li class="fragment"><p>In theory, LRMoE is flexible with suitable choices of expert functions.</p></li>
+<li class="fragment"><p>Our <span class="citation" data-cites="software">(<a href="#/references" role="doc-biblioref" onclick=""><strong>software?</strong></a>)</span> currently supports:</p>
 <ul>
 <li class="fragment">Frequency: Binomial, Negative Binomial, Poisson, Gamma Count</li>
 <li class="fragment">Severity: Burr, Gamma, Inverse Gaussian, Lognormal, Weibull</li>
-<li class="fragment">…and the zero-inflated version of all the above!</li>
+<li class="fragment">…and the zero-inflated version of all of the above!</li>
 </ul></li>
-<li class="fragment"><p>In practice, the choice of expert functions depends on the following considerations:</p>
+<li class="fragment"><p>In practice, the choice of expert functions depends on the following:</p>
 <ul>
 <li class="fragment"><strong>Preliminary Analysis</strong>: Let the dataset speak for itself.</li>
 <li class="fragment"><strong>Domain Knowledge</strong>: Models are more powerful when combined with actuaries’ discretion.</li>
@@ -767,13 +759,13 @@ the simplifying assumptions on the expert functions.
 </section>
 <section id="modelling-correlated-claims-frequency" class="slide level2">
 <h2>2. Modelling Correlated Claims Frequency</h2>
-<p><span class="citation" data-cites="fung2019classapplication">(<a href="#/references" role="doc-biblioref" onclick="">Fung, Badescu, and Lin 2019a</a>)</span> considers fitting LRMoE to the frequency of two correlated claims: Third-Party Liability (TPL) and Car Damages (CD).</p>
+<p><span class="citation" data-cites="fung2019classapplication">(<a href="#/references" role="doc-biblioref" onclick="">Fung, Badescu, and Lin 2019a</a>)</span> considers fitting LRMoE to the claim frequency of two correlated lines: Third-Party Liability (TPL) and Car Damages (CD).</p>
 <div>
 <ul>
-<li class="fragment"><p>We consider a European major insurer’s portfolio with 18K policyholders.</p></li>
+<li class="fragment"><p>We consider a European major insurer’s portfolio with 18k policyholders.</p></li>
 <li class="fragment"><p>Empirically, the two coverages are correlated with Kendall’s <span class="math inline">\(\tau\)</span> = 0.241, so it may not be appropriate to assume independence.</p></li>
 <li class="fragment"><p>CD coverage is over-dispersed, and both TPL and CD are right-skewed and heavy-tailed, which renders Poisson a poor modelling choice.</p></li>
-<li class="fragment"><p>We fit (zero-inflated, ZI-) negative binomial (NB) GLM as benchmark models.</p></li>
+<li class="fragment"><p>We fit (zero-inflated, ZI-) Negative Binomial (NB) GLM as benchmark models.</p></li>
 <li class="fragment"><p>We use the Erlang-Count (EC) experts for LRMoE, which will make our model theoretically flexible. Five components are used based on the Bayesian Information Criterion (BIC).</p></li>
 </ul>
 </div>
@@ -1281,7 +1273,7 @@ capture the heavy-tailedness.
 </section>
 <section id="fitting-lrmoe-to-real-data" class="slide level2">
 <h2>Fitting LRMoE to Real Data</h2>
-<p>As a mixture-based model, parameter estimation for LRMoE can be done by the Expectation-(Conditional-)Maximization, or E(C)M, algorithm.</p>
+<p>As a mixture-based model, parameter estimation for LRMoE can be done by the Expectation-Conditional-Maximization (ECM) algorithm.</p>
 <div>
 <ul>
 <li class="fragment"><p><span class="citation" data-cites="fung2019classapplication">(<a href="#/references" role="doc-biblioref" onclick="">Fung, Badescu, and Lin 2019a</a>)</span> contains an illustration of fitting LRMoE to frequency data.</p></li>
@@ -1294,7 +1286,7 @@ capture the heavy-tailedness.
 </div>
 </section>
 <section id="we-have-already-built-the-wheels" class="slide level2">
-<h2>We have already built the wheels!</h2>
+<h2>We Have Already Built the Wheels!</h2>
 <p>Our research group has developed two software packages for LRMoE, which are <strong>open-source</strong> and <strong>readily available</strong> for use on real datasets <span class="citation" data-cites="tseung2020lrmoe">(<a href="#/references" role="doc-biblioref" onclick="">Tseung et al. 2020</a>)</span> and <span class="citation" data-cites="tseung2021lrmoe">(<a href="#/references" role="doc-biblioref" onclick="">Tseung et al. 2021</a>)</span>.</p>
 <div class="fragment">
 <div class="columns">
@@ -1339,7 +1331,7 @@ capture the heavy-tailedness.
 <li class="fragment">A wider coverage on frequency and severity distributions and their zero-inflated variants;</li>
 <li class="fragment">The flexibility to vary classes of distributions across components;</li>
 <li class="fragment">Parameter estimation under data censoring and truncation;</li>
-<li class="fragment">A collection of insurance rate making and reserving functions; and</li>
+<li class="fragment">A collection of insurance ratemaking and reserving functions; and</li>
 <li class="fragment">Model selection and visualization tools.</li>
 </ul>
 </div>
@@ -1349,7 +1341,7 @@ capture the heavy-tailedness.
 </section>
 <section id="live-demo" class="slide level2">
 <h2>Live Demo!</h2>
-<p>We will see <code>LRMoE.jl</code> in action, including data simulation and model fitting to similated and real datasets.</p>
+<p>We will see <code>LRMoE.jl</code> in action, including model fitting to real dataset, model comparison and interpretation.</p>
 <ul>
 <li>Reproducible code available on <a href="https://github.com/UofTActuarial/Demo-LRMoE-jl">github</a></li>
 <li>Check out the complete documentation: <a href="https://actsci.utstat.utoronto.ca/LRMoE.jl/stable/">Julia</a> / <a href="https://actsci.utstat.utoronto.ca/LRMoE/">R</a></li>
