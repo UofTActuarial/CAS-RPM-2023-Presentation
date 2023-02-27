@@ -333,7 +333,7 @@ compared to GLM.
 
 - In theory, LRMoE is flexible with suitable choices of expert functions.
 
-- Our [@software] currently supports:
+- Our package currently supports:
   - Frequency: Binomial, Negative Binomial, Poisson, Gamma Count
   - Severity: Burr, Gamma, Inverse Gaussian, Lognormal, Weibull
   - ...and the zero-inflated version of all of the above!
